@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import logo from "/public/assets/logo.svg";
+import logo from "/public/assets/icons/logo.svg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IoClose } from "react-icons/io5";
@@ -26,7 +26,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-full bg-white text-primary">
+    <div className="w-full absolute top-0 left-0  bg-white text-primary">
       <nav
         className={`lg:px-24 md:px-16 px-5 flex md:rounded-full justify-center mx-auto  py-2 items-start relative top-0 w-full z-20 text-black bg-white`}
       >

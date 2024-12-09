@@ -19,6 +19,11 @@ const config: Config = {
         cairo: ["var(--font-cairo)", "sans-serif"],
         montserrat: ["var(--font-montserrat)", "sans-serif"],
       },
+      backgroundImage: {
+        heroBanner: "url('/assets/images/container-Banner.png')",
+        greenGradient:"linear-gradient(58.16deg, #016733 -6.21%, #1C1466 103.2%)",
+        heroCard:"url('/assets/images/hero-card.png')"
+      }
     },
   },
   plugins: [],
