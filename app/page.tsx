@@ -52,7 +52,7 @@ export default function Home() {
           <p className="font-montserrat font-bold text-lg">Choose from over 1.5 million hotels & 450+ airlines</p>
         </div>
         <div className=''>
-          <div className='relative bg-heroCard md:h-[390px] h-[350px] bg-no-repeat w-[600px] bg-contain'>
+          <div className='relative bg-heroCard bg-top md:h-[390px] h-[350px] bg-no-repeat lg:w-[600px] w-full bg-contain'>
 
             <div className='flex justify-between gap-4 w-full '>
 

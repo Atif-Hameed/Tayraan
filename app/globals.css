@@ -2,7 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-
 input {
   accent-color: rgb(82, 143, 82);
+}
+
+.btn-bg {
+  background: linear-gradient(58.16deg, #016733 -6.21%, #1c1466 103.2%);
+}
+
+.btn-bg:hover {
+  background: linear-gradient(58.16deg, #016732b7 -6.21%, #1c1466bc 103.2%);
 }

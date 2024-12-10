@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IoClose } from "react-icons/io5";
 import { Menu } from "lucide-react";
+import { WhatApps } from "@/app/svg";
 
 const menuItems = [
   { label: "Promo", url: "/promo" },
@@ -26,16 +27,16 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-full absolute top-0 left-0  bg-white text-primary">
+    <div className="w-full  top-0 left-0   bg-white text-primary">
       <nav
-        className={`lg:px-24 md:px-16 px-5 flex md:rounded-full justify-center mx-auto  py-2 items-start relative top-0 w-full z-20 text-black bg-white`}
+        className={`lg:px-24 md:px-16 px-5 max-w-[1800px] flex md:rounded-full justify-center mx-auto  py-2 items-start relative top-0 w-full z-20 text-black bg-white`}
       >
         <div className="flex justify-between items-center flex-shrink-0 w-full">
           <Link href="/">
             <Image
               src={logo}
               alt=""
-              className=" hover:scale-105  duration-300 transition-all"
+              className=" hover:scale-105 w-24 duration-300 transition-all"
             />
           </Link>
           <div className="lg:flex items-center hidden gap-3 xl:gap-10 ">
@@ -45,7 +46,7 @@ const Navbar = () => {
               <Link
                 key={item.label}
                 href={item.url}
-                className={`hover:scale-105 hover:text-primary duration-300 transition-all text-base font-medium  ${isActive(
+                className={`hover:scale-105 hover:text-secondary duration-300 transition-all text-base font-medium  font-montserrat ${isActive(
                   item.url
                 )}`}
               >
@@ -54,6 +55,22 @@ const Navbar = () => {
             ))}
           </div>
 
+
+
+          <div className="lg:flex hidden items-center gap-4">
+            <Link
+              href="https://wa.me/012645681444"
+              className="flex gap-2 items-center lg:text-base font-medium font-montserrat"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <WhatApps />
+              0126-4568-1444
+            </Link>
+
+
+            <Link href={'/signup'} className="py-3 px-5 lg:text-base font-medium font-montserrat text-white text-center btn-bg rounded-full">Sign Up</Link>
+          </div>
           <button
             onClick={() => setIsModalOpen(!isModalOpen)}
             className="lg:hidden block py-2 "
@@ -62,24 +79,42 @@ const Navbar = () => {
           </button>
         </div>
       </nav>
-      {isModalOpen && (
-        <div className="bg-primary absolute left-0 w-full  px-10 z-20 py-10 transition-all duration-300">
-          <div className="flex flex-col justify-center gap-2 ">
-            {menuItems.map((item) => (
-              <Link
-                key={item.label}
-                href={item.url}
-                onClick={() => setIsModalOpen(false)}
-                className={`hover:scale-105 my-1 text-white duration-300 transition-all text-base font-medium  ${isActive(
-                  item.url
-                )}`}
-              >
-                {item.label}
-              </Link>
-            ))}
+
+      <div className={`bg-primary absolute left-0 top-20 block lg:hidden w-full px-10 z-40 py-10 transition-all ease-in-out lg:min-h-0 min-h-screen duration-500 transform ${isModalOpen
+        ? "translate-y-0 opacity-100"
+        : "-translate-y-[110vh] opacity-40"
+        }`}>
+        <div className="flex flex-col justify-center gap-2 ">
+          {menuItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.url}
+              onClick={() => setIsModalOpen(false)}
+              className={`hover:scale-105 my-1 text-white duration-300 transition-all text-base font-medium  ${isActive(
+                item.url
+              )}`}
+            >
+              {item.label}
+            </Link>
+          ))}
+
+          <div className="flex flex-col  gap-4">
+            <Link
+              href="https://wa.me/012645681444"
+              className="flex gap-2 items-center text-white lg:text-base font-medium font-montserrat"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <WhatApps />
+              0126-4568-1444
+            </Link>
+
+
+            <Link href={'/signup'} className="py-3 px-5 text-white lg:text-base font-medium font-montserrat text-white text-center btn-bg rounded-full">Sign Up</Link>
           </div>
         </div>
-      )}
+      </div>
+
     </div>
   );
 };
