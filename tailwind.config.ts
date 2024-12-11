@@ -14,6 +14,7 @@ const config: Config = {
         orange: "#FF7300",
         green: "#026C34",
         gray: "#E1E1E1",
+        grayText: "#65778A",
         lightGreen: "#79DE90",
         bordered: "#1212121A",
       },
@@ -23,9 +24,10 @@ const config: Config = {
       },
       backgroundImage: {
         heroBanner: "url('/assets/images/container-Banner.png')",
-        greenGradient: "linear-gradient(58.16deg, #016733 -6.21%, #1C1466 103.2%)",
-        heroCard: "url('/assets/images/hero-card.png')"
-      }
+        greenGradient:
+          "linear-gradient(58.16deg, #016733 -6.21%, #1C1466 103.2%)",
+        heroCard: "url('/assets/images/hero-card.png')",
+      },
     },
   },
   plugins: [],

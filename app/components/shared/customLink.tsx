@@ -6,7 +6,7 @@ interface LinkWithIconProps {
   href: string;
   label?: string;
   iconStyles?: string;
-  styles?: string; // Optional styles for the container
+  className?: string; // Optional styles for the container
 
   style?: string;
 }
@@ -14,17 +14,17 @@ interface LinkWithIconProps {
 const CustomLink: React.FC<LinkWithIconProps> = ({
   href,
   label,
-  styles,
+  className,
 
   style,
 }) => {
   return (
     <Link
       href={href}
-      className={` flex gap-2 items-center bg-[#081319] md:py-3 py-2 cursor-pointer hover:scale-105 duration-300 transition-all md:px-7 px-5 ${styles}`}
+      className={` flex gap-2 items-center bg-green rounded-full md:py-3 py-2 cursor-pointer hover:scale-105 duration-300 transition-all md:px-7 px-5 ${className}`}
     >
-      <p className={`text-base font-medium text-white ${style}`}>{label}</p>
-      <IoMdArrowForward className="text-white text-xl" />
+      <p className={`text-base  text-white ${style}`}>{label}</p>
+      {/* <IoMdArrowForward className="text-white text-xl" /> */}
     </Link>
   );
 };

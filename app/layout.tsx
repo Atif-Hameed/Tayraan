@@ -49,7 +49,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <div className="sticky top-0 left-0">
+        <div className="sticky top-0 left-0 z-50">
           <Navbar />
         </div>
         {children}

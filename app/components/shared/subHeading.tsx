@@ -1,14 +1,14 @@
 import React from 'react';
 
 interface Props {
-    text: string;
-    styles?: string; // If you want to pass additional styles
+    children?: React.ReactNode; // Allow children to be passed
+    className?: string;
 }
 
-const SubHeading: React.FC<Props> = ({ text, styles }) => {
+const SubHeading: React.FC<Props> = ({ children, className }) => {
     return (
         <div>
-            <h3 className={`text-white  md:text-base text-sm md:leading-[30px]  ${styles}`}>{text}</h3>
+            <h3 className={`text-white font-cairo  md:text-base text-sm md:leading-[30px]  ${className}`}>{children}</h3>
         </div>
     );
 };
