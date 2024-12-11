@@ -4,6 +4,7 @@ import { useState } from "react";
 import BestOffer from "./components/website/home/best-offer";
 import HeroSection from "./components/website/home/hero-section";
 import TopHotels from "./components/website/home/top-hotels";
+import TopDeals from "./components/website/home/top-deals";
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -49,6 +50,7 @@ export default function Home() {
       />
       <BestOffer />
       <TopHotels />
+      <TopDeals />
     </div>
   );
 }
