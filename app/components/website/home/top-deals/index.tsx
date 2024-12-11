@@ -72,6 +72,7 @@ const TopDeals: React.FC = () => {
                         ))}
                     </div>
                 </div>
+
             </Section>
         </div>
     );
