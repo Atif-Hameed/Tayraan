@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 
 interface Option {
@@ -13,46 +13,66 @@ interface SelectInputProps {
   placeholder?: string;
   name?: string;
   value?: string;
-  onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
+  onChange?: (value: string) => void;
 }
 
 const CustomSelect: React.FC<SelectInputProps> = ({
   label,
-  options = [], // Provide a default empty array if options are not passed
+  options = [],
   placeholder,
-  name,
   value,
   onChange,
   error,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const selectRef = useRef<HTMLDivElement>(null);
+
+  const handleSelect = (selectedValue: string) => {
+    if (onChange) {
+      onChange(selectedValue);
+    }
+    setIsOpen(false);
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="flex flex-col w-full">
-      <label className="block  text-[#12121299]">
-        {label}
-      </label>
+    <div ref={selectRef} className="flex flex-col w-full">
+      {label && <label className="block text-[#12121299]">{label}</label>}
       <div className="relative">
-        <select
-          onChange={onChange}
-          name={name}
-          className={`text-grey1 text-md bg-transparent outline-none block w-full py-1.5 appearance-none`}
-          value={value}
-          style={{ WebkitAppearance: "none", MozAppearance: "none" }} // Disable the arrow in Firefox, Safari, and Chrome
+        <div
+          onClick={() => setIsOpen(!isOpen)}
+          className={`cursor-pointer text-grey1 text-md bg-transparent outline-none w-full py-1.5 px-2 rounded-lg flex justify-between items-center ${isOpen ? "border-green" : ""
+            }`}
         >
-          <option value="All" disabled={value !== "All"}>
-            {placeholder}
-          </option>
-          {options
-            .filter((option) => option.label !== "Actions")
-            .map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-        </select>
-        {/* Custom Arrow Icon */}
-        <div className="absolute inset-y-0 -right-1 top-[52%] -translate-y-[50%] pr-1 pointer-events-none">
+          <span>{value || placeholder}</span>
           <IoIosArrowDown className="text-lg" />
         </div>
+        {isOpen && (
+          <div className="absolute z-10 w-full bg-white border border-bordered shadow-lg rounded-lg mt-0.5">
+            {options.map((option, i) => (
+              <div
+                key={option.value}
+                onClick={() => handleSelect(option.value)}
+                className={`cursor-pointer px-2 py-1 ${i === 0 ? "rounded-t-lg" : ""
+                  } ${i === options.length - 1 ? "rounded-b-lg" : ""} hover:bg-greenGradient hover:text-white transition-colors`}
+              >
+                {option.label}
+              </div>
+            ))}
+          </div>
+        )}
         {error && <span className="text-sm text-red-500">{error}</span>}
       </div>
     </div>

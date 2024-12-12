@@ -5,9 +5,10 @@ import BestOffer from "./components/website/home/best-offer";
 import HeroSection from "./components/website/home/hero-section";
 import TopHotels from "./components/website/home/top-hotels";
 import TopDeals from "./components/website/home/top-deals";
+import Footer from "./components/website/home/Footer";
 
 export default function Home() {
-  const [formData, setFormData] = useState({
+  const [flightFormData, setFlightFormData] = useState({
     from: "",
     to: "",
     departure: "",
@@ -15,16 +16,33 @@ export default function Home() {
     travelers: "",
     flightType: "round-trip", // default flight type
   });
+  const [hotelFormData, setHotelFormData] = useState({
+    address: "",
+    checkIn: "",
+    checkOut: "",
+    travelers: "",
+  });
 
-  const handleChange = (name: string, value: any) => {
-    setFormData((prevData) => ({
+  const handleFlightChange = (name: string, value: any) => {
+    setFlightFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  const handleSubmit = () => {
-    console.log("Form Data Submitted:", formData);
+  const handleHotelChange = (name: string, value: any) => {
+    setHotelFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleFlightSubmit = () => {
+    console.log("Flight Form Data Submitted:", flightFormData);
+  };
+
+  const handleHotelSubmit = () => {
+    console.log("Hotel Form Data Submitted:", hotelFormData);
   };
 
   const cityOptions = [
@@ -42,15 +60,19 @@ export default function Home() {
   return (
     <div>
       <HeroSection
-        formData={formData}
-        handleChange={handleChange}
+        flightFormData={flightFormData}
+        hotelFormData={hotelFormData}
+        handleFlightChange={handleFlightChange}
         cityOptions={cityOptions}
         travelerOptions={travelerOptions}
-        handleSubmit={handleSubmit}
+        handleFlightSubmit={handleFlightSubmit}
+        handleHotelChange={handleHotelChange}
+        handleHotelSubmit={handleHotelSubmit}
       />
       <BestOffer />
       <TopHotels />
       <TopDeals />
+      <Footer/>
     </div>
   );
 }
