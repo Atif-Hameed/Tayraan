@@ -6,6 +6,7 @@ import HeroSection from "./components/website/home/hero-section";
 import TopHotels from "./components/website/home/top-hotels";
 import TopDeals from "./components/website/home/top-deals";
 import Footer from "./components/website/home/Footer";
+import TopFlights from "./components/website/home/popular-fligts";
 
 export default function Home() {
   const [flightFormData, setFlightFormData] = useState({
@@ -72,7 +73,8 @@ export default function Home() {
       <BestOffer />
       <TopHotels />
       <TopDeals />
-      <Footer/>
+      <TopFlights />
+      <Footer />
     </div>
   );
 }

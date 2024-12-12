@@ -4,6 +4,7 @@ import "./globals.css";
 import { Cairo } from "next/font/google";
 import { Montserrat } from "next/font/google";
 import Navbar from "./components/shared/navbar";
+import AnimationProvider from "./components/provider/animation-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -49,10 +50,12 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <div className="sticky top-0 left-0 z-50">
-          <Navbar />
-        </div>
-        {children}
+        <AnimationProvider>
+          <div className="sticky top-0 left-0 z-50">
+            <Navbar />
+          </div>
+          {children}
+        </AnimationProvider>
       </body>
     </html>
   );

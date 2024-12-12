@@ -44,12 +44,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     setIsHotel(!isHotel);
   };
 
-  
+
   return (
     <div className="w-full bg-heroBanner py-20 lg:py-32 items-center bg-no-repeat bg-cover">
       <Section>
         <div className="gap-8 flex xl:flex-row flex-col ju items-center">
-          <div className="xl:w-1/2 w-full text-white flex flex-col gap-6">
+          <div data-aos="zoom-in-up" className="xl:w-1/2 w-full text-white flex flex-col gap-6">
             <h1 className="font-cairo font-bold lg:text-7xl text-5xl">
               Let’s book your next trip!
             </h1>
@@ -58,12 +58,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             </p>
           </div>
 
-          <div className="relative bg-white rounded-2xl py-5 lg:py-0 bg-top-right lg:h-full px-5 h-auto bg-no-repeat lg:w-1/2 w-full bg-contain">
+          <div data-aos="zoom-in-up" className="relative bg-white rounded-2xl py-5 lg:py-0 bg-top-right lg:h-full px-5 h-auto bg-no-repeat lg:w-1/2 w-full bg-contain">
             {/* Section to toggle row reverse */}
             <div
-              className={`flex justify-between gap-4 w-full py-2 ${
-                isHotel ? "flex-row-reverse" : ""
-              }`}
+              className={`flex justify-between gap-4 w-full py-2 ${isHotel ? "flex-row-reverse" : ""
+                }`}
             >
               <div className="flex items-center gap-2 justify-between w-full">
                 <div className="flex items-center gap-2">

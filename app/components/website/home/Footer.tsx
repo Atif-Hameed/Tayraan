@@ -42,7 +42,7 @@ const Footer = () => {
     ]
 
     return (
-        <div className='bg-footerBanner pt-16 pb-6'>
+        <div className='bg-footerBanner bg-no-repeat bg-cover pt-16 pb-6'>
             <Section>
                 <div className=' grid lg:grid-cols-7 sm:grid-cols-5  grid-cols-1 gap-16 bg-cover bg-no-repeat h-full w-full'>
                     <div className='flex flex-col sm:col-span-2 items-start gap-4'>

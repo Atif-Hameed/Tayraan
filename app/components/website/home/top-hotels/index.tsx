@@ -79,7 +79,7 @@ export default function TopHotels() {
                         selectedCategory={selectedCategory}
                         onSelectCategory={setSelectedCategory}
                     />
-                    <div className="grid grid-cols-1  lg:grid-cols-2 gap-6">
+                    <div data-aos="zoom-in-up" className="grid grid-cols-1  lg:grid-cols-2 gap-6">
                         {filteredHotels.map((hotel, index) => (
                             <HotelCard key={index} {...hotel} />
                         ))}

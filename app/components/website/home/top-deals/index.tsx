@@ -66,7 +66,7 @@ const TopDeals: React.FC = () => {
                         Last Minute Weekend Deals
                     </ParaHeading>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div data-aos="zoom-in-up" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {hotels.map((hotel, index) => (
                             <DealCard key={index} {...hotel} />
                         ))}
