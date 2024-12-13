@@ -7,6 +7,7 @@ import TopHotels from "./components/website/home/top-hotels";
 import TopDeals from "./components/website/home/top-deals";
 import Footer from "./components/website/home/Footer";
 import TopFlights from "./components/website/home/popular-fligts";
+import MobileAppSection from "./components/website/home/mobile-app-section";
 
 export default function Home() {
   const [flightFormData, setFlightFormData] = useState({
@@ -74,6 +75,7 @@ export default function Home() {
       <TopHotels />
       <TopDeals />
       <TopFlights />
+      <MobileAppSection />
       <Footer />
     </div>
   );

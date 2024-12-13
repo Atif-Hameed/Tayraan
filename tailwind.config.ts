@@ -17,7 +17,7 @@ const config: Config = {
         grayText: "#65778A",
         lightGreen: "#79DE90",
         bordered: "#1212121A",
-        lightGray:'#9AA4B2',
+        lightGray: "#9AA4B2",
       },
       fontFamily: {
         cairo: ["var(--font-cairo)", "sans-serif"],
@@ -28,7 +28,7 @@ const config: Config = {
         greenGradient:
           "linear-gradient(58.16deg, #016733 -6.21%, #1C1466 103.2%)",
         heroCard: "url('/assets/images/hero-card.png')",
-        footerBanner: "url('/assets/images/footer-banner.png')"
+        footerBanner: "url('/assets/images/footer-banner.png')",
       },
     },
   },

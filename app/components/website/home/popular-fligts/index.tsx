@@ -4,6 +4,7 @@ import bg from "/public/assets/flights/bg.png";
 import Section from "@/app/components/shared/section";
 import ParaHeading from "@/app/components/shared/para-heading";
 import React, { useState } from "react";
+import Link from "next/link";
 
 // Sample flight data
 const flights = [
@@ -129,7 +130,7 @@ export default function TopFlights() {
                     </div>
                     <div data-aos="zoom-in-up" className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 py-5">
                         {filteredFlights.map((flight, index) => (
-                            <div key={index} className="space-y-5">
+                            <Link href={`/flight-details/${flight.routeFrom}`} key={index} className="space-y-5 block">
                                 <Image
                                     src={flight.image}
                                     alt={`Flight from ${flight.routeFrom} to ${flight.routeTO}`}
@@ -146,7 +147,7 @@ export default function TopFlights() {
                                     </h2>
 
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </div>

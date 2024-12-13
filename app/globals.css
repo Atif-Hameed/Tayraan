@@ -14,3 +14,12 @@ input {
   background: linear-gradient(58.16deg, #016732b7 -6.21%, #1c1466bc 103.2%);
 }
 
+.borderGradient {
+  border: 1px solid;
+
+  border-image-source: linear-gradient(
+    58.16deg,
+    #016733 -6.21%,
+    #1c1466 103.2%
+  );
+}
