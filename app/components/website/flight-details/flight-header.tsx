@@ -6,6 +6,7 @@ import { Location, LocationIcon } from "@/app/svg";
 import { RiHeart3Fill, RiHeart3Line } from "react-icons/ri";
 import { BsShareFill } from "react-icons/bs";
 import Button from "../../shared/Button";
+import { useRouter } from "next/navigation";
 
 type FlightHeaderProps = {
     data: {
@@ -20,6 +21,8 @@ type FlightHeaderProps = {
 const FlightHeader = ({ data }: FlightHeaderProps) => {
     const { airline, location, reviews, rating, price } = data;
     const [fav, setfav] = useState(false)
+    const router = useRouter();
+
     return (
         <div className="flex items-center px-4 py-6 justify-between flex-wrap  rounded-lg">
             {/* Header Section */}
@@ -43,7 +46,7 @@ const FlightHeader = ({ data }: FlightHeaderProps) => {
                     <button onClick={() => setfav(!fav)} className="text-green flex justify-center items-center p-2  text-2xl font-medium border-2 border-green  rounded-lg ">{fav ? <RiHeart3Fill /> : <RiHeart3Line />}</button>
 
                     <button className="text-green flex justify-center items-center p-2  text-2xl font-medium border-2 border-green  rounded-lg "> <BsShareFill /> </button>
-                    <Button label="Book Now" style="!bg-greenGradient !text-center !min-w-32" />
+                    <Button onClick={() => router.push(`/book-now?id=`)} label="Book Now" style="!bg-greenGradient !text-center !min-w-32" />
 
                 </div>
 

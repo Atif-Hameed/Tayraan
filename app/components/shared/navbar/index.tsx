@@ -27,7 +27,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-full  top-0 left-0   bg-white text-primary">
+    <div className="w-full  top-0 left-0   bg-white shadow-md text-primary">
       <nav
         className={`lg:px-24 md:px-16 px-5 max-w-[1800px] z-20 flex md:rounded-full justify-center mx-auto  py-2 items-start relative top-0 w-full  text-black bg-white`}
       >

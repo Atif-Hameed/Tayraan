@@ -29,7 +29,7 @@ const Button: React.FC<ButtonProps> = ({
         className={`md:py-4 py-3 md:px-5 px-3 rounded-full md:text-base justify-center text-sm font-semibold text-white  flex gap-2 items-center hover:scale-105 duration-300 transition-all ${disabled ? "bg-opacity-50 cursor-not-allowed" : ""
           } ${style}`}
         onClick={onClick}
-        disabled={disabled}
+        disabled={disabled} 
         type={type || "button"}
       >
         {icon}
