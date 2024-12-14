@@ -8,7 +8,7 @@ import DealCard from './deal-card';
 
 const hotels = [
     {
-        image: '/assets/hotels/d1.PNG',
+        image: '/assets/hotels/d1.png',
         title: 'Cairo',
         location: 'London',
         price: 148.25,
@@ -19,7 +19,7 @@ const hotels = [
         discount: 20, // Optional field
     },
     {
-        image: '/assets/hotels/d4.PNG',
+        image: '/assets/hotels/d4.png',
         title: 'Cairo',
         location: 'London',
         price: 148.25,
@@ -30,7 +30,7 @@ const hotels = [
         discount: 20, // Optional field
     },
     {
-        image: '/assets/hotels/d3.PNG',
+        image: '/assets/hotels/d3.png',
         title: 'Cairo',
         location: 'London',
         price: 148.25,
@@ -41,7 +41,7 @@ const hotels = [
         discount: 20, // Optional field
     },
     {
-        image: '/assets/hotels/d2.PNG',
+        image: '/assets/hotels/d2.png',
         title: 'Cairo',
         location: 'London',
         price: 148.25,

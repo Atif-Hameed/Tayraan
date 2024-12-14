@@ -9,7 +9,7 @@ import Link from "next/link";
 // Sample flight data
 const flights = [
     {
-        image: "/assets/flights/f1.PNG",
+        image: "/assets/flights/f1.png",
         routeFrom: "Riyadh",
         routeTO: "Kuwait",
         date: "Nov - Nov 12",
@@ -19,7 +19,7 @@ const flights = [
         category: "International",
     },
     {
-        image: "/assets/flights/f2.PNG",
+        image: "/assets/flights/f2.png",
         routeFrom: "Riyadh",
         routeTO: "Kuwait",
         date: "Nov - Nov 12",
@@ -29,7 +29,7 @@ const flights = [
         category: "International",
     },
     {
-        image: "/assets/flights/f3.PNG",
+        image: "/assets/flights/f3.png",
         routeFrom: "Riyadh",
         routeTO: "Kuwait",
         date: "Nov - Nov 12",
@@ -39,7 +39,7 @@ const flights = [
         category: "International",
     },
     {
-        image: "/assets/flights/f4.PNG",
+        image: "/assets/flights/f4.png",
         routeFrom: "Riyadh",
         routeTO: "Kuwait",
         date: "Nov - Nov 12",
@@ -49,7 +49,7 @@ const flights = [
         category: "International",
     },
     {
-        image: "/assets/flights/f5.PNG",
+        image: "/assets/flights/f5.png",
         routeFrom: "Riyadh",
         routeTO: "Kuwait",
         date: "Nov - Nov 12",
@@ -58,7 +58,7 @@ const flights = [
         rating: 5,
         category: "International",
     }, {
-        image: "/assets/flights/f6.PNG",
+        image: "/assets/flights/f6.png",
         routeFrom: "Riyadh",
         routeTO: "Kuwait",
         date: "Nov - Nov 12",
@@ -68,7 +68,7 @@ const flights = [
         category: "International",
     },
     {
-        image: "/assets/flights/f2.PNG",
+        image: "/assets/flights/f2.png",
         routeFrom: "Riyadh",
         routeTO: "Kuwait",
         date: "Nov - Nov 12",
@@ -78,7 +78,7 @@ const flights = [
         category: "Domestic",
     },
     {
-        image: "/assets/flights/f1.PNG",
+        image: "/assets/flights/f1.png",
         routeFrom: "Riyadh",
         routeTO: "Kuwait",
         date: "Nov - Nov 12",
