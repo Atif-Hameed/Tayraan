@@ -100,7 +100,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                         type="radio"
                         name="flightType"
                         value={type}
-                        className="h-[17px] w-[17px]"
+                        className="h-[17px] w-[17px] custom-input-color"
                         checked={flightFormData.flightType === type}
                         onChange={() => handleFlightChange("flightType", type)}
                       />

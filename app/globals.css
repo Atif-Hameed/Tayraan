@@ -2,8 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-input {
+.custom-input-color {
   accent-color: rgb(82, 143, 82);
+}
+.custom-input-color-pay {
+  accent-color: white;
 }
 
 .btn-bg {
