@@ -161,13 +161,13 @@ const Page = () => {
 
     return (
         <Section>
-            <div className='mt-14'>
+            <div className='mt-14 font-cairo'>
                 <ParaHeading>
                     <span className='text-black'>Important flight information</span>
                 </ParaHeading>
             </div>
 
-            <div className='w-full flex items-start lg:flex-row flex-col gap-4 mt-6 mb-16'>
+            <div className='w-full flex items-start lg:flex-row flex-col gap-4 mt-6 mb-16 font-cairo'>
                 {/* Left Section */}
                 <div className='lg:w-[65%] w-full flex flex-col gap-4'>
 
