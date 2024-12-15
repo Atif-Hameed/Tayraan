@@ -24,7 +24,7 @@ const data = {
     rating: 4.5,
     price: "$240",
     images: [i1, i2, i3, i4, i5],
-    featureImages: [f1, f2, f3, f4, f5, f6, f1, f2, f3, f4, f5, f6],
+    featureImages: [f1, f2, f3, f4, f5, f6, f1, f2, f3, f4, f5, f6, f1, f2, f3, f4, f5, f6, f1, f2, f3, f4, f5, f6],
 };
 
 const FlightDetails = () => {
@@ -49,15 +49,19 @@ const FlightDetails = () => {
                         <Heading className="!text-black">Basic Economy Features</Heading>
                         <FlightClassSelect />
                     </div>
-                    <div className="mt-8 grid w-full gap-5 justify-between 2xl:grid-cols-12 lg:grid-cols-8 grid-cols-2 ">
+                    <div className="mt-8  ">
 
-                        {data.featureImages?.map((item, i: number) => (
-                            <div key={i} className="mb-8 sm:break-inside-avoid">
-                                <Image src={item} alt='' width={500} height={600} className="object-cover rounded-lg w-full" />
+                        <div className="slider py-3 w-full ">
+                            <div className="slide-track">
+                                {data.featureImages?.map((item, i: number) => (
+                                    <div key={i} className="mb-8 sm:break-inside-avoid">
+                                        <Image src={item} alt='' width={500} height={600} className="px-4 rounded-lg w-full" />
+
+                                    </div>
+                                ))}
 
                             </div>
-                        ))}
-
+                        </div>
                     </div>
                 </div>
 

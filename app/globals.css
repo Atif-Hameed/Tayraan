@@ -26,3 +26,58 @@
     #1c1466 103.2%
   );
 }
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(-250px * 7));
+  }
+}
+
+/* Slider Styles */
+.slider {
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Before and After Pseudo-elements */
+.slider::before,
+.slider::after {
+  content: "";
+  height: 100px;
+  position: absolute;
+  width: 400px;
+  z-index: 2;
+}
+
+.slider::after {
+  right: 0;
+  top: 0;
+  transform: rotateZ(180deg);
+}
+
+.slider::before {
+  left: 0;
+  top: 0;
+}
+
+/* Slide Track Animation */
+.slide-track {
+  animation: scroll 40s linear infinite;
+  display: flex;
+  width: calc(250px * 14);
+}
+
+/* Individual Slide Styles */
+.slide {
+  height: 200px;
+  width: 500px;
+}
+
+.slide-track:hover {
+  animation-play-state: paused;
+}
