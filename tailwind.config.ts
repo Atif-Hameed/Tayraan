@@ -18,6 +18,7 @@ const config: Config = {
         lightGreen: "#79DE90",
         bordered: "#1212121A",
         lightGray: "#9AA4B2",
+        grayDark:'#7C7C7C'
       },
       fontFamily: {
         cairo: ["var(--font-cairo)", "sans-serif"],

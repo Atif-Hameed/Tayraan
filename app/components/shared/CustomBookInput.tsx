@@ -15,7 +15,7 @@ const CustomBookInput = (props: CustomInputProps) => {
 
     const { label, inputType, placeholder, name, style, error, onChange, value, } = props;
     return (
-        <div className='border border-bordered rounded-xl p-2' >
+        <div className='border border-bordered rounded-xl p-2 py-3' >
             <input
                 type={inputType}
                 name={name}
