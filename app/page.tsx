@@ -8,6 +8,7 @@ import TopDeals from "./components/website/home/top-deals";
 import Footer from "./components/website/home/Footer";
 import TopFlights from "./components/website/home/popular-fligts";
 import MobileAppSection from "./components/website/home/mobile-app-section";
+import Navbar from "./components/shared/navbar";
 
 export default function Home() {
   const [flightFormData, setFlightFormData] = useState({
@@ -61,6 +62,9 @@ export default function Home() {
 
   return (
     <div>
+      <div className="sticky top-0 left-0 z-50">
+        <Navbar />
+      </div>
       <HeroSection
         flightFormData={flightFormData}
         hotelFormData={hotelFormData}

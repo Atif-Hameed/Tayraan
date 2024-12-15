@@ -51,9 +51,6 @@ export default function RootLayout({
       </head>
       <body>
         <AnimationProvider>
-          <div className="sticky top-0 left-0 z-50">
-            <Navbar />
-          </div>
           {children}
         </AnimationProvider>
       </body>

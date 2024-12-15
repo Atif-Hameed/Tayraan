@@ -1,22 +1,10 @@
 import React from 'react';
 import jazeeraLogo from '@/public/assets/images/jazeeraLogo.png'
-import paypalCard from '@/public/assets/images/paypalCard.png'
-import visaCard from '@/public/assets/images/visaCard.png'
-import expressCard from '@/public/assets/images/expressCard.png'
-import masterCard from '@/public/assets/images/masterCard.png'
 import Image from 'next/image';
 import { BaggageIcon } from '@/app/svg';
 
 
 const FlightCard = () => {
-
-    const Cards = [
-        { img: jazeeraLogo, src: '#' },
-        { img: paypalCard, src: '#' },
-        { img: visaCard, src: '#' },
-        { img: expressCard, src: '#' },
-        { img: masterCard, src: '#' },
-    ]
 
     return (
         <div className="bg-white p-4 border rounded-xl shadow-md  border-bordered">

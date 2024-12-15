@@ -167,7 +167,7 @@ const Page = () => {
                 </ParaHeading>
             </div>
 
-            <div className='w-full flex items-start lg:flex-row flex-col gap-4 mt-6'>
+            <div className='w-full flex items-start lg:flex-row flex-col gap-4 mt-6 mb-16'>
                 {/* Left Section */}
                 <div className='lg:w-[65%] w-full flex flex-col gap-4'>
 
