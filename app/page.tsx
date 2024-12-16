@@ -9,6 +9,7 @@ import Footer from "./components/website/home/Footer";
 import TopFlights from "./components/website/home/popular-fligts";
 import MobileAppSection from "./components/website/home/mobile-app-section";
 import Navbar from "./components/shared/navbar";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [flightFormData, setFlightFormData] = useState({
@@ -25,7 +26,7 @@ export default function Home() {
     checkOut: "",
     travelers: "",
   });
-
+  const router = useRouter()
   const handleFlightChange = (name: string, value: any) => {
     setFlightFormData((prevData) => ({
       ...prevData,
@@ -42,10 +43,13 @@ export default function Home() {
 
   const handleFlightSubmit = () => {
     console.log("Flight Form Data Submitted:", flightFormData);
+    router.push('/flight-search')
   };
 
   const handleHotelSubmit = () => {
     console.log("Hotel Form Data Submitted:", hotelFormData);
+    router.push('/hotel-search')
+
   };
 
   const cityOptions = [
