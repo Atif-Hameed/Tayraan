@@ -1,69 +1,41 @@
 'use client'
 import React, { useState } from 'react';
+import axios from 'axios';
 import FlightFilter from '@/app/components/website/flight-search/flight-filter';
 import FlightCard from '@/app/components/website/flight-details/flight-card';
 import Section from '@/app/components/shared/section';
-interface FilterSection {
-    id: string;
-    title: string;
-    type: 'range' | 'checkbox' | 'time'; // Different types of filters
-    options?: FilterOption[];
-    min?: number; // For range sliders
-    max?: number;
-    value?: any; // Default value for each filter
-}
-interface FilterOption {
-    label: string;
-    value: string | number;
-}
+import FlightSearchForm from '@/app/components/website/flight-search/search-form';
 
 const Page: React.FC = () => {
-    const [filters, setFilters] = useState<{ [key: string]: any }>({});
-    const filterSections: FilterSection[] = [
-        {
-            id: 'price',
-            title: 'Price range',
-            type: 'range',
-            min: 1000,
-            max: 3800,
-        },
-        {
-            id: 'stops',
-            title: 'Stops',
-            type: 'checkbox',
-            options: [
-                { label: 'Direct flights only', value: 'direct' },
-                { label: '1 stop point', value: '1stop' },
-            ],
-        },
-        {
-            id: 'departureTime',
-            title: 'Departure Time',
-            type: 'time',
-            options: [
-                { label: 'Early morning (00:00 - 5:59)', value: 'earlyMorning' },
-                { label: 'Morning (6:00 - 11:59)', value: 'morning' },
-                { label: 'Afternoon (12:00 - 17:59)', value: 'afternoon' },
-                { label: 'Evening (18:00 - 23:59)', value: 'evening' },
-            ],
-        },
-    ];
+    const [filters, setFilters] = useState<{ [key: string]: any }>({
+        price: 2000,
+        stops: ['direct'],
+        departureTime: 'morning'
+    });
+    const [flights, setFlights] = useState<any[]>([]);
+
 
     return (
         <Section>
             <div className="py-20">
+                <FlightSearchForm flights={flights} setFlights={setFlights} />
                 <div className="flex flex-wrap justify-between gap-5 py-10">
                     <div className="lg:w-1/5 w-full">
+                        {/* Pass individual filter props */}
                         <FlightFilter
-                            sections={filterSections}
-                            filters={filters}
-                            onFilterChange={(updatedFilters) => setFilters(updatedFilters)}
+                            filterPrice={filters.price}
+                            filterStops={filters.stops}
+                            filterDepartureTime={filters.departureTime}
+                            onPriceChange={(newPrice) => setFilters({ ...filters, price: newPrice })}
+                            onStopsChange={(newStops) => setFilters({ ...filters, stops: newStops })}
+                            onDepartureTimeChange={(newTime) => setFilters({ ...filters, departureTime: newTime })}
                         />
                     </div>
                     <div className="lg:w-3/4 w-full space-y-6">
-                        {[1, 2, 3, 4, 5, 6].map((_, index) => (
-                            <FlightCard key={index} />
-                        ))}
+                        {flights.length === 0 && <p>No flights found.</p>}
+                        {/* {flights.map((flight, index) => (
+                            <FlightCard key={index} flight={flight} />
+                        ))} */}
                     </div>
                 </div>
             </div>

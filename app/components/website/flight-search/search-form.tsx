@@ -1,41 +1,59 @@
-"use client";
+'use client';
 
 import { useState } from "react";
+import axios from "axios"; // Import axios
 import Image from "next/image";
 import fromImg from "/public/assets/from.png";
 import toImg from "/public/assets/to.png";
 import { Search } from "lucide-react";
 
 interface FlightSearchFormProps {
-    defaultTripType?: string; // roundtrip, oneway, multiCities
-    defaultFrom?: string;
-    defaultTo?: string;
-    defaultDepartureDate?: string;
-    defaultReturnDate?: string;
+    setFlights?: React.Dispatch<React.SetStateAction<any[]>>; // Updated for correct type
+    flights?: any[];
 }
 
 const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
-    defaultTripType = "roundtrip",
-    defaultFrom = "",
-    defaultTo = "",
-    defaultDepartureDate = "",
-    defaultReturnDate = "",
+    setFlights,
+    flights
 }) => {
-    const [tripType, setTripType] = useState(defaultTripType);
-    const [from, setFrom] = useState(defaultFrom);
-    const [to, setTo] = useState(defaultTo);
-    const [departureDate, setDepartureDate] = useState(defaultDepartureDate);
-    const [returnDate, setReturnDate] = useState(defaultReturnDate);
+    const [tripType, setTripType] = useState('roundtrip');
+    const [from, setFrom] = useState<string>(''); // Added types
+    const [to, setTo] = useState<string>(''); // Added types
+    const [departureDate, setDepartureDate] = useState<string>(''); // Added types
+    const [returnDate, setReturnDate] = useState<string>(''); // Added types
+    const [loading, setLoading] = useState(false); // For loading state
+    const [error, setError] = useState<string | null>(null); // Fixed typo in state initialization
 
-    const handleSubmit = (event: React.FormEvent) => {
+    // Handle form submit and API call
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        console.log({
-            tripType,
-            from,
-            to,
-            departureDate,
-            returnDate: tripType === "roundtrip" ? returnDate : null,
-        });
+        setLoading(true);
+        setError(null); // Reset error before making a new request
+
+        try {
+            const originIATA = origin === 'lahore' ? 'LHE' : origin;  // Use 'LHE' for Lahore
+            const destinationIATA = from === 'Dubai' ? 'DXB' : from;  // Use 'DXB' for Dubai
+
+            // Make the GET request to the server API
+            const response = await axios.get('/api/search-flights', {
+                params: {
+                    origin: originIATA, // e.g., "LHE"
+                    destination: destinationIATA, // e.g., "DXB"
+                    departureDate: departureDate, // e.g., "2024-12-20"
+                    returnDate: tripType === "roundtrip" ? returnDate : null, // Only add for roundtrip
+                },
+            });
+
+
+
+            // Store the fetched flight data
+            setFlights?.(response.data.flights);
+
+        } catch (err) {
+            setError('There was an error fetching flight data');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -63,7 +81,7 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
             </div>
 
             {/* Passenger and Class Selection */}
-            <div className="flex gap-4  my-4">
+            <div className="flex gap-4 my-4">
                 <select
                     className="px-4 py-3 rounded-full border border-borderColor"
                     name="passengers"
@@ -158,9 +176,14 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
                     className="flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-700 text-white hover:bg-emerald-600"
                     aria-label="Search Flights"
                 >
-                    Search <Search />
+                    {loading ? 'Searching...' : 'Search'} <Search />
                 </button>
             </div>
+
+            {/* Error handling */}
+            {error && <p className="text-red-500">{error}</p>}
+
+
         </form>
     );
 };
