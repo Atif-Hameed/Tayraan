@@ -1,93 +1,120 @@
-'use client'
-import { useState } from 'react';
+'use client';
+import React, { useState } from 'react';
+import { MdKeyboardArrowDown } from 'react-icons/md';
+import { ArrowUp, DayFilter } from '@/app/svg';
 
-interface FilterItem {
+interface FilterOption {
     label: string;
-    count?: number;
-    value: any | number;
-    type: 'checkbox' | 'range';
+    value: string | number;
 }
 
-const FlightFilter: React.FC = () => {
-    const [isExpanded, setIsExpanded] = useState(false);
+interface FilterSection {
+    id: string;
+    title: string;
+    type: 'range' | 'checkbox' | 'time'; // Different types of filters
+    options?: FilterOption[];
+    min?: number; // For range sliders
+    max?: number;
+    value?: any; // Default value for each filter
+}
 
-    const [filterState, setFilterState] = useState({
-        arrivalTime: '',
-        priceRange: [200, 2000], // Example range
-        stops: ['direct'],
-        airlines: [],
-        airports: [],
-    });
+interface FlightFilterProps {
+    sections: FilterSection[];
+    filters: { [key: string]: any }; // External state
+    onFilterChange: (updatedFilters: { [key: string]: any }) => void;
+}
 
-    const filterItems: FilterItem[] = [
-        { label: 'Early morning (00:00 - 5:59)', value: 'earlyMorning', type: 'checkbox' },
-        { label: 'The morning (6:00 - 11:59)', value: 'morning', type: 'checkbox' },
-        { label: 'Afternoon (12:00 - 17:59)', value: 'afternoon', type: 'checkbox' },
-        { label: 'Evening (18:00 - 23:59)', value: 'evening', type: 'checkbox' },
-        { label: 'Direct flights only', value: 'direct', type: 'checkbox', count: 23 },
-        { label: '1 stop point', value: 'onestop', type: 'checkbox', count: 23 },
-        { label: 'Airline A', value: 'airlineA', type: 'checkbox', count: 23 },
-        { label: 'Airline B', value: 'airlineB', type: 'checkbox', count: 23 },
-        // ... more filter items
-        { label: 'Price range', value: 'price', type: 'range' },
-        { label: 'Duration', value: 'duration', type: 'range' },
-    ];
+const FlightFilter: React.FC<FlightFilterProps> = ({ sections, filters, onFilterChange }) => {
+    const [isExpanded, setIsExpanded] = useState<{ [key: string]: boolean }>(
+        sections.reduce((acc, section) => ({ ...acc, [section.id]: true }), {})
+    );
 
-
-    const handleCheckboxChange = (value: string) => {
-        setFilterState((prevState) => ({
-            ...prevState,
-            stops: prevState.stops.includes(value) ? prevState.stops.filter((s) => s !== value) : [...prevState.stops, value],
-        }));
+    const toggleSection = (id: string) => {
+        setIsExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
     };
 
-    const handleRangeChange = (value: number[], type: string) => {
-        setFilterState((prevState) => ({ ...prevState, [type]: value }));
+    const handleRangeChange = (id: string, value: number) => {
+        onFilterChange({ ...filters, [id]: [filters[id][0], value] });
+    };
+
+    const handleCheckboxChange = (id: string, value: string) => {
+        const updatedStops = filters[id]?.includes(value)
+            ? filters[id].filter((item: string) => item !== value)
+            : [...(filters[id] || []), value];
+        onFilterChange({ ...filters, [id]: updatedStops });
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-md p-4 w-64">
-            <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold">Filters</h3>
-                <button onClick={() => setIsExpanded(!isExpanded)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isExpanded ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"} />
-                    </svg>
-                </button>
-            </div>
+        <div className="bg-white rounded-lg shadow-md p-4 w-full max-w-md">
+            <h3 className="text-lg font-bold mb-4">Filter results...</h3>
 
-            {isExpanded && (
-                <div>
-                    {filterItems.map((item) => (
-                        <div key={item.label} className="mb-2">
-                            {item.type === 'checkbox' ? (
-                                <div className="flex items-center">
+            {sections.map((section) => (
+                <div key={section.id} className="py-3">
+
+                    <div
+                        className="flex justify-between items-center cursor-pointer"
+                        onClick={() => toggleSection(section.id)}
+                    >
+                        <h4 className="text-base py-2 font-semibold">{section.title}</h4>
+                        <span>
+                            {isExpanded[section.id] ? <ArrowUp /> : <MdKeyboardArrowDown className="text-2xl" />}
+                        </span>
+                    </div>
+
+                    {/* Time Options */}
+                    {isExpanded[section.id] && section.type === 'time' && section.options && (
+                        <div className="grid grid-cols-2 gap-4 mt-2">
+                            {section.options.map((option) => (
+                                <div
+                                    key={option.value}
+                                    className={`border p-2 rounded-md flex flex-col items-center cursor-pointer hover:shadow ${filters[section.id] === option.value ? 'border-blue-500' : ''
+                                        }`}
+                                    onClick={() => onFilterChange({ ...filters, [section.id]: option.value })}
+                                ><DayFilter />
+                                    <span className="text-sm text-center">{option.label}</span>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                    {/* Section Header */}
+
+                    {/* Range Slider */}
+                    {isExpanded[section.id] && section.type === 'range' && (
+                        <div className="mt-2">
+                            <input
+                                type="range"
+                                min={section.min}
+                                max={section.max}
+                                value={filters[section.id]}
+                                onChange={(e) => handleRangeChange(section.id, parseInt(e.target.value))}
+                                className="w-full"
+                            />
+                            <div className="flex justify-between text-sm">
+                                <span>{section.min} SAR</span>
+                                <span>{filters[section.id]} SAR</span>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Checkboxes */}
+                    {isExpanded[section.id] && section.type === 'checkbox' && section.options && (
+                        <div className="space-y-2">
+                            {section.options.map((option) => (
+                                <label key={option.value} className="flex items-center">
                                     <input
                                         type="checkbox"
-                                        id={item.value}
-                                        checked={filterState.stops.includes(item.value)}
-                                        onChange={() => handleCheckboxChange(item.value)}
+                                        checked={filters[section.id]?.includes(option.value)}
+                                        onChange={() => handleCheckboxChange(section.id, option.value as string)}
                                         className="mr-2"
                                     />
-                                    <label >{item.label} {item.count && `(${item.count})`}</label>
-                                </div>
-                            ) : item.type === 'range' ? (
-                                <div>
-                                    <label >{item.label}</label>
-                                    <input
-                                        type="range"
-                                        id={item.value}
-                                        min={item.value === 'price' ? 200 : 0}
-                                        max={item.value === 'price' ? 2000 : 720}
-                                        // value={filterState[item.value as 'priceRange' | 'duration']}
-                                        onChange={(e) => handleRangeChange([parseInt(e.target.value, 10), 2000], item.value as 'priceRange' | 'duration')}
-                                    />
-                                </div>
-                            ) : null}
+                                    {option.label}
+                                </label>
+                            ))}
                         </div>
-                    ))}
+                    )}
+
                 </div>
-            )}
+            ))}
         </div>
     );
 };
