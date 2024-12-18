@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BestOffer from "./components/website/home/best-offer";
 import HeroSection from "./components/website/home/hero-section";
 import TopHotels from "./components/website/home/top-hotels";
@@ -10,6 +10,7 @@ import TopFlights from "./components/website/home/popular-fligts";
 import MobileAppSection from "./components/website/home/mobile-app-section";
 import Navbar from "./components/shared/navbar";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function Home() {
   const [flightFormData, setFlightFormData] = useState({
@@ -26,6 +27,30 @@ export default function Home() {
     checkOut: "",
     travelers: "",
   });
+
+  const [airports, setAirports] = useState([]); // State to store airport data
+
+  // Fetch and sort airport data when the component mounts
+  useEffect(() => {
+    const fetchAirports = async () => {
+
+      try {
+        const response = await axios.get('/api/airports');
+        // Sort airports alphabetically by airport name
+        const sortedAirports = response.data
+        setAirports(sortedAirports); // Store sorted data in state
+      } catch (error) {
+        console.error("Error fetching airports:", error);
+      }
+    };
+
+    fetchAirports();
+  }, []); // Run only once when the component mounts
+
+
+  console.log("airports", airports)
+
+
   const router = useRouter()
   const handleFlightChange = (name: string, value: any) => {
     setFlightFormData((prevData) => ({

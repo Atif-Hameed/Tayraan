@@ -47,8 +47,8 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
 
 
             // Store the fetched flight data
-            setFlights?.(response.data.flights);
-
+            setFlights?.(response.data);
+            console.log('flight', response.data)
         } catch (err) {
             setError('There was an error fetching flight data');
         } finally {

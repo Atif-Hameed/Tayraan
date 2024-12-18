@@ -1,5 +1,4 @@
-// File: /app/api/search-flights/route.js
-import { getAmadeusToken } from '../token-amadeus';
+import { getAmadeusToken } from '../../../utils/amadeus-token';
 import amadeus from '../../../utils/amadeus';
 
 export async function GET(request) {
@@ -8,30 +7,44 @@ export async function GET(request) {
     const destination = searchParams.get('destination');
     const departureDate = searchParams.get('departureDate');
     const returnDate = searchParams.get('returnDate'); // For roundtrip
-    const accessToken = await getAmadeusToken();
+
+    // Validate inputs
+    // const iataCodeRegex = /^[A-Z]{3}$/; // Regex for 3-letter IATA codes
+    // if (!iataCodeRegex.test(origin) || !iataCodeRegex.test(destination)) {
+    //     return new Response(
+    //         JSON.stringify({
+    //             error: 'Invalid IATA code. Both origin and destination must be 3-letter IATA codes.',
+    //         }),
+    //         { status: 400 }
+    //     );
+    // }
+
     try {
+        const accessToken = await getAmadeusToken();
         const params = {
-            originLocationCode: origin,
-            destinationLocationCode: destination,
-            departureDate,
-            adults: 1, // Customize as needed
+            originLocationCode: 'SYD',
+            destinationLocationCode: 'BKK',
+            departureDate: '2024-12-20',
+            adults: '2'
         };
 
-        // Add returnDate if trip type is roundtrip
-        if (returnDate) {
-            params.returnDate = returnDate;
-        }
+        // Add returnDate if roundtrip
+        // if (returnDate) {
+        //     params.returnDate = returnDate;
+        // }
+
         const response = await amadeus.shopping.flightOffersSearch.get(params, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
-        console.log('Flight Search Result:', response.result.data);
 
-        // Return the flight data as a JSON response
+        // Return flight data
         return new Response(JSON.stringify(response.result.data), { status: 200 });
     } catch (error) {
         console.error('Error fetching flights:', error);
         return new Response(JSON.stringify({ error: error.message }), { status: 500 });
     }
 }
+
+
