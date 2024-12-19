@@ -46,7 +46,7 @@ const PriceCards: React.FC = () => {
 
                 <div className='my-10 '>
                     <p className='sm:text-4xl text-2xl font-bold'>Select fare type</p>
-                </div>
+                </div> 
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 lg:gap-12 gap-6 w-full">
                     {cardData.map((card) => (
