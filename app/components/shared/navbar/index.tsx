@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { IoClose } from "react-icons/io5";
 import { Menu } from "lucide-react";
 import { WhatApps } from "@/app/svg";
+import { LanguageSwitcher } from "../google-tranlator/language-switcher";
 
 const menuItems = [
   { label: "Promo", url: "/promo" },
@@ -58,6 +59,8 @@ const Navbar = () => {
 
 
           <div className="lg:flex hidden items-center gap-4">
+            <LanguageSwitcher />
+
             <Link
               href="https://wa.me/012645681444"
               className="flex gap-2 items-center lg:text-base font-medium font-montserrat"
@@ -108,6 +111,7 @@ const Navbar = () => {
               <WhatApps />
               0126-4568-1444
             </Link>
+            <LanguageSwitcher />
 
 
             <Link href={'/signup'} className="py-3 px-5 text-white lg:text-base font-medium font-montserrat text-white text-center btn-bg rounded-full">Sign Up</Link>

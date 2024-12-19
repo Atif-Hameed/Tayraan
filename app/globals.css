@@ -81,3 +81,17 @@
 .slide-track:hover {
   animation-play-state: paused;
 }
+body {
+  position: static !important;
+  top: 0 !important;
+}
+iframe.skiptranslate {
+  display: none !important;
+}
+
+/* Ensure your dropdown is visible */
+#google_translate_element {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}

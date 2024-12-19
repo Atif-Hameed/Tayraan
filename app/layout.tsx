@@ -3,8 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Cairo } from "next/font/google";
 import { Montserrat } from "next/font/google";
-import Navbar from "./components/shared/navbar";
 import AnimationProvider from "./components/provider/animation-provider";
+
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,7 +15,7 @@ const cairo = Cairo({
   display: "swap",
   variable: "--font-cairo",
 });
- 
+
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -32,11 +33,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html
-      lang="en"
+      // lang='en'
       className={`${cairo.variable} ${montserrat.variable}`}
     >
+      <Script src="/langs/lang-config.js" strategy="beforeInteractive" />
+      <Script src="/langs/translation.js" strategy="beforeInteractive" />
+      <Script src="//translate.google.com/translate_a/element.js?cb=TranslateInit" strategy="afterInteractive" />
+
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -50,7 +56,10 @@ export default function RootLayout({
         />
       </head>
       <body>
+
         <AnimationProvider>
+
+          {/* <GoogleTranslate /> */}
           {children}
         </AnimationProvider>
       </body>
