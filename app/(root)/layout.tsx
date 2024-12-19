@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import Navbar from '../components/shared/navbar'
 import Footer from '../components/website/home/Footer';

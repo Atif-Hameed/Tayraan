@@ -16,6 +16,7 @@ import Image from "next/image";
 import Heading from "@/app/components/shared/heading";
 import FlightClassSelect from "@/app/components/website/flight-details/flight-class-select";
 import FlightCard from "@/app/components/website/flight-details/flight-card";
+import PriceCards from "@/app/components/website/flight-details/Price-cards";
 
 const data = {
     airline: "Kuwait International Airport (KWI)",
@@ -29,47 +30,52 @@ const data = {
 
 const FlightDetails = () => {
     return (
-        <Section>
-            <div className=" py-10 ">
-                <FlightHeader data={data} />
+        <div>
+            <Section>
+                <div className=" py-10 ">
+                    <FlightHeader data={data} />
 
-                <div className="mt-8 [column-fill:_balance] sm:columns-2 sm:gap-6 lg:columns-3 ">
-                    {data.images?.map((item, i: number) => (
-                        <div key={i} className="mb-8 sm:break-inside-avoid">
-                            <blockquote className="rounded-lg shadow-sm ">
-                                <Image src={item} alt='' width={500} height={600} className="object-cover w-full" />
-                            </blockquote>
-                        </div>
-                    ))}
+                    <div className="mt-8 [column-fill:_balance] sm:columns-2 sm:gap-6 lg:columns-3 ">
+                        {data.images?.map((item, i: number) => (
+                            <div key={i} className="mb-8 sm:break-inside-avoid">
+                                <blockquote className="rounded-lg shadow-sm ">
+                                    <Image src={item} alt='' width={500} height={600} className="object-cover w-full" />
+                                </blockquote>
+                            </div>
+                        ))}
 
-                </div>
-
-                <div className="mt-8  ">
-                    <div className="flex flex-wrap justify-between items-center gap-5">
-                        <Heading className="!text-black">Basic Economy Features</Heading>
-                        <FlightClassSelect />
                     </div>
+
                     <div className="mt-8  ">
+                        <div className="flex flex-wrap justify-between items-center gap-5">
+                            <Heading className="!text-black">Basic Economy Features</Heading>
+                            <FlightClassSelect />
+                        </div>
+                        <div className="mt-8  ">
 
-                        <div className="slider py-3 w-full ">
-                            <div className="slide-track">
-                                {data.featureImages?.map((item, i: number) => (
-                                    <div key={i} className="mb-8 sm:break-inside-avoid">
-                                        <Image src={item} alt='' width={500} height={600} className="px-4 rounded-lg w-full" />
+                            <div className="slider py-3 w-full ">
+                                <div className="slide-track">
+                                    {data.featureImages?.map((item, i: number) => (
+                                        <div key={i} className="mb-8 sm:break-inside-avoid">
+                                            <Image src={item} alt='' width={500} height={600} className="px-4 rounded-lg w-full" />
 
-                                    </div>
-                                ))}
+                                        </div>
+                                    ))}
 
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="mt-8">
-                    <FlightCard />
+                    <div className="mt-8">
+                        <FlightCard />
+                    </div>
                 </div>
+            </Section>
+            <div className="mt-8 bg-[#FBFBFB]">
+                <PriceCards />
             </div>
-        </Section>
+        </div>
     );
 };
 
