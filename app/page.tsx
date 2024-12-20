@@ -13,6 +13,8 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 export default function Home() {
+  const [searchedAirports,setSearchedAirports] = useState([])
+  const [loading,setLoading] = useState(false)
   const [flightFormData, setFlightFormData] = useState({
     from: "",
     to: "",
@@ -20,7 +22,7 @@ export default function Home() {
     return: "",
     travelers: "",
     class: "",
-    flightType: "round-trip", // default flight type
+    flightType: "round-trip", 
   });
   const [hotelFormData, setHotelFormData] = useState({
     address: "",
@@ -29,8 +31,24 @@ export default function Home() {
     travelers: "",
   });
 
+ const GetAirpports=async(keyword:string)=>{
+  try
+  {
+    setLoading(true)
+    const data = await axios.get(`/api/airports?keyword=${keyword}`);
+    setSearchedAirports(data.data);
+  
+  }
+  catch(err)
+  {
+    console.log(err)
+  }
+  finally{
+    setLoading(false)
+  }
+}
 
-
+ 
 
   const router = useRouter()
   const handleFlightChange = (name: string, value: any) => {
@@ -94,7 +112,10 @@ export default function Home() {
       </div>
       <HeroSection
         flightFormData={flightFormData}
+        GetAirpports = {GetAirpports}
+        searchedAirports={searchedAirports}
         hotelFormData={hotelFormData}
+        loading={loading}
         handleFlightChange={handleFlightChange}
         cityOptions={cityOptions}
         travelerOptions={travelerOptions}

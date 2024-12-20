@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomSelect from "../../shared/customSelect";
 import { AiroplanIcon, ArrowCircleIcon, BedIcon } from "@/app/svg";
 import { LuSearch } from "react-icons/lu";
 import Section from "../../shared/section";
 import CustomInput from "../../shared/CustomInput";
+import CustomInputSelect from "../../shared/CustomInputSelect";
 
 type HeroSectionProps = {
   flightFormData: {
@@ -21,12 +22,15 @@ type HeroSectionProps = {
     checkOut: string;
     travelers: string;
   };
+  loading: boolean;
+  searchedAirports: any,
   handleFlightChange: (name: string, value: any) => void;
   handleHotelChange: (name: string, value: any) => void;
   cityOptions: { label: string; value: string }[];
   travelerOptions: { label: string; value: string }[];
   handleFlightSubmit: () => void;
   handleHotelSubmit: () => void;
+  GetAirpports: (keyword: string) => Promise<void>;
 };
 
 const HeroSection: React.FC<HeroSectionProps> = ({
@@ -38,8 +42,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   travelerOptions,
   handleFlightSubmit,
   handleHotelSubmit,
+  GetAirpports,
+  searchedAirports,
+  loading
 }) => {
   const [isHotel, setIsHotel] = useState(false); // State to control flex row reverse
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Function to toggle row-reverse
   const toggleHotlFlight = () => {
@@ -51,6 +59,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     { label: "Business", value: "business" },
     { label: "First Class", value: "first_class" },
   ];
+
+  useEffect(()=>{
+
+    if(searchTerm)
+    {
+      GetAirpports(searchTerm)
+    }
+
+  },[searchTerm])
 
   return (
     <div className="w-full bg-heroBanner min-h-screen 2xl:min-h-auto py-20 lg:py-32 items-center bg-bottom bg-no-repeat bg-cover">
@@ -119,13 +136,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
                 {/* Form fields */}
                 <div className="border-t border-bordered gap-4 py-4 mt-2 grid lg:grid-cols-2 px-4">
-                  <CustomSelect
-                    options={cityOptions}
+                  <CustomInputSelect
+                    options={searchedAirports}
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
                     className="!border-b py-2 border-bordered"
-
                     placeholder="From"
                     label="From"
                     name="from"
+                    loading={loading}
                     value={flightFormData.from}
                     onChange={(value) => handleFlightChange("from", value)}
                   />
@@ -134,7 +153,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                     options={cityOptions}
                     placeholder="To"
                     className="!border-b py-2 border-bordered"
-
+ 
                     label="To"
                     name="to"
                     value={flightFormData.to}

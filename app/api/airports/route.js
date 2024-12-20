@@ -1,34 +1,59 @@
 import { getAmadeusToken } from '../../../utils/amadeus-token';
-import amadeus from '../../../utils/amadeus';
+import axios from 'axios';
 
 export async function GET(request) {
+    const amadeusApiUrl = 'https://test.api.amadeus.com/v1/reference-data/locations';
     const accessToken = await getAmadeusToken();
 
-    // Define pagination parameters
-    const limit = 100;  // Number of items per page
-    const offset = 0;   // Starting point for the page (for pagination)
+    // Extract query parameters from the request
+    const { searchParams } = new URL(request.url);
+    const keyword = searchParams.get('keyword') || ''; 
+    const limit = searchParams.get('limit') || 10;    
+    const offset = searchParams.get('offset') || 0;  
 
-    // try {
-    // Make the request to the Amadeus API to fetch airports
-    const response = await amadeus.referenceData.locations.get({
-        subType: 'AIRPORT',  // Only fetch airports
-        'page[limit]': limit,  // Limit number of results per page
-        'page[offset]': offset,  // Offset to specify the page number
-    }, {
-        headers: {
-            Authorization: `Bearer ${accessToken}`,  // Use the access token for authentication
-        },
-    });
+    if (!keyword) {
+        return new Response(
+            JSON.stringify({ error: 'Keyword is required for searching.' }),
+            { status: 400 }
+        );
+    }
 
-    // Return the airports data
-    return new Response(JSON.stringify(response.result.data), { status: 200 });
-    // } catch (error) {
-    //     console.error('Error fetching airports:', error);
-    //     return new Response(
-    //         JSON.stringify({
-    //             error: error.message || 'An error occurred while fetching airports.',
-    //         }),
-    //         { status: 500 }
-    //     );
-    // }
+    try {
+        
+        const response = await axios.get(amadeusApiUrl, {
+            params: {
+                subType: 'AIRPORT',       
+                keyword,                
+                'page[limit]': limit,   
+                'page[offset]': offset,  
+                sort: 'analytics.travelers.score',
+                view: 'FULL',           
+            },
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        // Return successful response
+        return new Response(JSON.stringify(response.data.data), { status: 200 });
+    } catch (error) {
+        if (error.response) {
+            console.error('API Response Error:', error.response.data);
+            return new Response(
+                JSON.stringify({
+                    error: error.response.data.errors || 'An error occurred while fetching data.',
+                }),
+                { status: error.response.status }
+            );
+        } else {
+            console.error('Request Error:', error.message);
+            return new Response(
+                JSON.stringify({
+                    error: error.message || 'An unknown error occurred.',
+                }),
+                { status: 500 }
+            );
+        }
+    }
 }
