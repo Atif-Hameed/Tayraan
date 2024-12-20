@@ -7,9 +7,9 @@ export async function GET(request) {
 
     // Extract query parameters from the request
     const { searchParams } = new URL(request.url);
-    const keyword = searchParams.get('keyword') || ''; 
-    const limit = searchParams.get('limit') || 10;    
-    const offset = searchParams.get('offset') || 0;  
+    const keyword = searchParams.get('keyword') || '';
+    const limit = searchParams.get('limit') || 10;
+    const offset = searchParams.get('offset') || 0;
 
     if (!keyword) {
         return new Response(
@@ -19,15 +19,15 @@ export async function GET(request) {
     }
 
     try {
-        
+
         const response = await axios.get(amadeusApiUrl, {
             params: {
-                subType: 'AIRPORT',       
-                keyword,                
-                'page[limit]': limit,   
-                'page[offset]': offset,  
+                subType: 'AIRPORT',
+                keyword,
+                'page[limit]': limit,
+                'page[offset]': offset,
                 sort: 'analytics.travelers.score',
-                view: 'FULL',           
+                view: 'FULL',
             },
             headers: {
                 Authorization: `Bearer ${accessToken}`,

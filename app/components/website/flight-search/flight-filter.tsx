@@ -1,7 +1,9 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { ArrowUp, DayFilter } from '@/app/svg';
+import PriceRange from '../../shared/filter/price-range';
+import CheckboxGroup from '../../shared/filter/filter-checkbox-group';
 
 interface FlightFilterProps {
     filterPrice: number;
@@ -33,7 +35,12 @@ const FlightFilter: React.FC<FlightFilterProps> = ({
         stops: true,
         departureTime: true
     });
+    const [priceRange, setPriceRange] = useState<[number, number]>([100, 500]);
 
+    const handlePriceChange = (newValue: [number, number]) => {
+        console.log("Selected Price Range:", newValue);
+        setPriceRange(newValue);
+    };
     const toggleSection = (section: keyof IsExpanded) => {
         setIsExpanded((prev) => ({ ...prev, [section]: !prev[section] }));
     };
@@ -70,63 +77,33 @@ const FlightFilter: React.FC<FlightFilterProps> = ({
                     <span>{isExpanded.price ? <ArrowUp /> : <MdKeyboardArrowDown className="text-2xl" />}</span>
                 </div>
                 {isExpanded.price && (
-                    <div className="mt-2">
-                        <input
-                            type="range"
-                            min={1000}
-                            max={3800}
-                            value={filterPrice}
-                            onChange={(e) => onPriceChange(parseInt(e.target.value))}
-                            className="w-full"
-                        />
-                        <div className="flex justify-between text-sm">
-                            <span>1000 SAR</span>
-                            <span>{filterPrice} SAR</span>
-                        </div>
-                    </div>
+                    <PriceRange
+                        title=""
+                        min={50}
+                        max={1000}
+                        unit="SAR"
+                        value={priceRange}
+                        onChange={handlePriceChange}
+                    />
                 )}
             </div>
 
             {/* Stops Filter */}
-            <div className="py-3">
-                <div className="flex justify-between items-center cursor-pointer" onClick={() => toggleSection('stops')}>
-                    <h4 className="text-base py-2 font-semibold">Stops</h4>
-                    <span>{isExpanded.stops ? <ArrowUp /> : <MdKeyboardArrowDown className="text-2xl" />}</span>
-                </div>
-                {isExpanded.stops && (
-                    <div className="space-y-2 mt-2">
-                        <label className="flex items-center">
-                            <input
-                                type="checkbox"
-                                checked={filterStops.includes('direct')}
-                                onChange={() =>
-                                    onStopsChange(
-                                        filterStops.includes('direct')
-                                            ? filterStops.filter((stop) => stop !== 'direct')
-                                            : [...filterStops, 'direct']
-                                    )
-                                }
-                                className="mr-2"
-                            />
-                            Direct flights only
-                        </label>
-                        <label className="flex items-center">
-                            <input
-                                type="checkbox"
-                                checked={filterStops.includes('1stop')}
-                                onChange={() =>
-                                    onStopsChange(
-                                        filterStops.includes('1stop')
-                                            ? filterStops.filter((stop) => stop !== '1stop')
-                                            : [...filterStops, '1stop']
-                                    )
-                                }
-                                className="mr-2"
-                            />
-                            1 stop point
-                        </label>
-                    </div>
-                )}
+            <div className="py-3 space-y-5">
+                <CheckboxGroup
+                    title="خطوط الطيران"
+                    options={[
+                        { label: "طيران ناس", logo: "/jazeera.png" },
+                        { label: "طيران ناس", logo: "/jazeera.png" },
+                    ]}
+                />
+                <CheckboxGroup
+                    title="المطارات"
+                    options={[
+                        { label: "مطار الملك خالد الدولي (RUH)" },
+                        { label: "مطار حمد الدولي (DOH)" },
+                    ]}
+                />
             </div>
 
 

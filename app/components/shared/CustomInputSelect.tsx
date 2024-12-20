@@ -108,18 +108,19 @@ const CustomInputSelect: React.FC<SelectInputProps> = ({
           onClick={() => setIsOpen(!isOpen)}
           className={`cursor-pointer text-grey1 text-md bg-transparent outline-none w-full py-1.5 px-2 flex justify-between items-center ${className} ${isOpen ? "border-green" : ""}`}
         >
-          <span>{value || placeholder}</span>
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm?.(e.target.value)}
+            placeholder={placeholder}
+            className="w-full   outline-none"
+          />
+          {/* <span>{value || placeholder}</span> */}
           <IoIosArrowDown className="text-lg" />
         </div>
         {isOpen && (
           <div className="absolute z-10 w-full bg-white border border-bordered shadow-lg rounded-lg mt-0.5">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm?.(e.target.value)}
-              placeholder="Type to search..."
-              className="w-full px-2 py-1 border-b outline-none"
-            />
+
             {loading ? (
               <div className="text-center py-2">Loading...</div>
             ) : (
@@ -129,7 +130,7 @@ const CustomInputSelect: React.FC<SelectInputProps> = ({
                   onClick={() => handleSelect(option.iataCode)}
                   className={`cursor-pointer px-2 py-1 ${i === 0 ? "rounded-t-lg" : ""} ${i === options.length - 1 ? "rounded-b-lg" : ""} hover:bg-greenGradient hover:text-white transition-colors`}
                 >
-                 
+
                   {HighlightText({
                     text: `${option.name}, ${option.address.cityName}`,
                     query: searchTerm || "",

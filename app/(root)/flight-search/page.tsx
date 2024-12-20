@@ -20,7 +20,7 @@ const Page: React.FC = () => {
             <div className="py-20">
                 <FlightSearchForm flights={flights} setFlights={setFlights} />
                 <div className="flex flex-wrap justify-between gap-5 py-10">
-                    <div className="lg:w-1/5 w-full">
+                    <div className="lg:w-1/4 w-full">
                         {/* Pass individual filter props */}
                         <FlightFilter
                             filterPrice={filters.price}
@@ -31,11 +31,11 @@ const Page: React.FC = () => {
                             onDepartureTimeChange={(newTime) => setFilters({ ...filters, departureTime: newTime })}
                         />
                     </div>
-                    <div className="lg:w-3/4 w-full space-y-6">
+                    <div className="lg:w-[72%] w-full space-y-6">
                         {flights.length === 0 && <p>No flights found.</p>}
-                        {/* {flights.map((flight, index) => (
-                            <FlightCard key={index} flight={flight} />
-                        ))} */}
+                        {[1, 2, 3, 4].map((flight, index) => (
+                            <FlightCard key={index} />
+                        ))}
                     </div>
                 </div>
             </div>
