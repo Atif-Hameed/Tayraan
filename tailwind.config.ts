@@ -20,6 +20,8 @@ const config: Config = {
         lightGray: "#9AA4B2",
         grayDark: "#7C7C7C",
         borderColor: "#A1B0CC",
+        Cgreen:'#8DD3BB',
+        gray2:'#737373'
       },
       fontFamily: {
         cairo: ["var(--font-cairo)", "sans-serif"],
