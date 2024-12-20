@@ -12,6 +12,7 @@ interface SelectInputProps {
   error?: string;
   placeholder?: string;
   name?: string;
+  className?: string;
   value?: string;
   onChange?: (value: string) => void;
 }
@@ -23,6 +24,7 @@ const CustomSelect: React.FC<SelectInputProps> = ({
   value,
   onChange,
   error,
+  className
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
@@ -53,7 +55,7 @@ const CustomSelect: React.FC<SelectInputProps> = ({
       <div className="relative">
         <div
           onClick={() => setIsOpen(!isOpen)}
-          className={`cursor-pointer text-grey1 text-md bg-transparent outline-none w-full py-1.5 px-2 rounded-lg flex justify-between items-center ${isOpen ? "border-green" : ""
+          className={`cursor-pointer text-grey1 text-md bg-transparent outline-none w-full py-1.5 px-2  flex justify-between items-center ${className} ${isOpen ? "border-green" : ""
             }`}
         >
           <span>{value || placeholder}</span>

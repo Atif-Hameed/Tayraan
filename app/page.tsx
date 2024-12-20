@@ -19,6 +19,7 @@ export default function Home() {
     departure: "",
     return: "",
     travelers: "",
+    class: "",
     flightType: "round-trip", // default flight type
   });
   const [hotelFormData, setHotelFormData] = useState({
@@ -28,27 +29,7 @@ export default function Home() {
     travelers: "",
   });
 
-  const [airports, setAirports] = useState([]); // State to store airport data
 
-  // Fetch and sort airport data when the component mounts
-  useEffect(() => {
-    const fetchAirports = async () => {
-
-      try {
-        const response = await axios.get('/api/airports');
-        // Sort airports alphabetically by airport name
-        const sortedAirports = response.data
-        setAirports(sortedAirports); // Store sorted data in state
-      } catch (error) {
-        console.error("Error fetching airports:", error);
-      }
-    };
-
-    fetchAirports();
-  }, []); // Run only once when the component mounts
-
-
-  console.log("airports", airports)
 
 
   const router = useRouter()
@@ -67,16 +48,31 @@ export default function Home() {
   };
 
   const handleFlightSubmit = () => {
+    const { from, to, departure, return: returnDate, travelers, class: flightClass } = flightFormData;
+
+
     console.log("Flight Form Data Submitted:", flightFormData);
-    router.push('/flight-search')
+
+    router.push(
+      `/flight-search?origin=${encodeURIComponent(from)}&destination=${encodeURIComponent(to)}&departureDate=${encodeURIComponent(departure)}&returnDate=${encodeURIComponent(returnDate)}&travelers=${encodeURIComponent(travelers)}&class=${encodeURIComponent(flightClass)}`
+    );
   };
 
+  // Handle hotel form submission
   const handleHotelSubmit = () => {
+    const { address, checkIn, checkOut, travelers } = hotelFormData;
+
+    if (!address || !checkIn || !checkOut || !travelers) {
+      alert("Please fill in all required fields for the hotel search.");
+      return;
+    }
+
     console.log("Hotel Form Data Submitted:", hotelFormData);
-    router.push('/hotel-search')
 
+    router.push(
+      `/hotel-search?address=${encodeURIComponent(address)}&checkIn=${encodeURIComponent(checkIn)}&checkOut=${encodeURIComponent(checkOut)}&travelers=${encodeURIComponent(travelers)}`
+    );
   };
-
   const cityOptions = [
     { label: "Mumbai", value: "Mumbai" },
     { label: "Riyadh", value: "Riyadh" },
@@ -88,6 +84,8 @@ export default function Home() {
     { label: "2 Travelers", value: "2" },
     { label: "3 Travelers", value: "3" },
   ];
+
+
 
   return (
     <div>
