@@ -31,11 +31,13 @@ export default function Home() {
     travelers: "",
   });
 
+  console.log("flight",flightFormData)
  const GetAirpports=async(keyword:string)=>{
   try
   {
     setLoading(true)
     const data = await axios.get(`/api/airports?keyword=${keyword}`);
+    console.log("airports",data.data)
     setSearchedAirports(data.data);
   
   }
@@ -56,6 +58,14 @@ export default function Home() {
       ...prevData,
       [name]: value,
     }));
+    if(name==="return")
+    {
+      setFlightFormData({
+        ...flightFormData,
+        flightType:"round-trip",
+        [name]:value
+      })
+    }
   };
 
   const handleHotelChange = (name: string, value: any) => {

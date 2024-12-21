@@ -31,6 +31,7 @@ type HeroSectionProps = {
   handleFlightSubmit: () => void;
   handleHotelSubmit: () => void;
   GetAirpports: (keyword: string) => Promise<void>;
+  
 };
 
 const HeroSection: React.FC<HeroSectionProps> = ({
@@ -44,30 +45,36 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   handleHotelSubmit,
   GetAirpports,
   searchedAirports,
-  loading
+  loading,
+
 }) => {
   const [isHotel, setIsHotel] = useState(false); // State to control flex row reverse
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTermFrom, setSearchTermFrom] = useState("");
+  const [searchTermTo, setSearchTermTo] = useState("");
 
   // Function to toggle row-reverse
   const toggleHotlFlight = () => {
     setIsHotel(!isHotel);
   };
   const flightClassOptions = [
-    { label: "Economy", value: "economy" },
-    { label: "Premium Economy", value: "premium_economy" },
-    { label: "Business", value: "business" },
-    { label: "First Class", value: "first_class" },
+    { label: "Economy", value: "ECONOMY" },
+    { label: "Premium Economy", value: "PREMIUM_ECONOMY" },
+    { label: "Business", value: "BUSINESS" },
+    { label: "First Class", value: "FIRST" },
   ];
 
   useEffect(()=>{
 
-    if(searchTerm)
+    if(searchTermFrom)
     {
-      GetAirpports(searchTerm)
+      GetAirpports(searchTermFrom)
+    }
+    else if(searchTermTo)
+    {
+      GetAirpports(searchTermTo)
     }
 
-  },[searchTerm])
+  },[searchTermFrom,searchTermTo])
 
   return (
     <div className="w-full bg-heroBanner min-h-screen 2xl:min-h-auto py-20 lg:py-32 items-center bg-bottom bg-no-repeat bg-cover">
@@ -138,8 +145,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 <div className="border-t border-bordered gap-4 py-4 mt-2 grid lg:grid-cols-2 px-4">
                   <CustomInputSelect
                     options={searchedAirports}
-                    searchTerm={searchTerm}
-                    setSearchTerm={setSearchTerm}
+                    searchTerm={searchTermFrom}
+                    setSearchTerm={setSearchTermFrom}
                     className="!border-b py-2 border-bordered"
                     placeholder="From"
                     label="From"
@@ -149,13 +156,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                     onChange={(value) => handleFlightChange("from", value)}
                   />
 
-                  <CustomSelect
-                    options={cityOptions}
+                  <CustomInputSelect
+                    options={searchedAirports.filter((item:any)=>item.iataCode!==flightFormData.from)}
+                    searchTerm={searchTermTo}
+                    setSearchTerm={setSearchTermTo}
                     placeholder="To"
                     className="!border-b py-2 border-bordered"
- 
                     label="To"
                     name="to"
+                    loading={loading}
                     value={flightFormData.to}
                     onChange={(value) => handleFlightChange("to", value)}
                   />

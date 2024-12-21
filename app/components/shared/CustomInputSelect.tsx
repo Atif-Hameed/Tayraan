@@ -65,12 +65,21 @@ const CustomInputSelect: React.FC<SelectInputProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSelect = (selectedValue: string) => {
     if (onChange) {
       onChange(selectedValue);
     }
+    if (setSearchTerm) {
+      setSearchTerm(selectedValue); 
+    }
     setIsOpen(false);
+  };
+  const handleFocus = () => {
+    if (inputRef.current) {
+      inputRef.current.select(); 
+    }
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -108,12 +117,15 @@ const CustomInputSelect: React.FC<SelectInputProps> = ({
           onClick={() => setIsOpen(!isOpen)}
           className={`cursor-pointer text-grey1 text-md bg-transparent outline-none w-full py-1.5 px-2 flex justify-between items-center ${className} ${isOpen ? "border-green" : ""}`}
         >
+        
           <input
             type="text"
+            ref={inputRef}
             value={searchTerm}
             onChange={(e) => setSearchTerm?.(e.target.value)}
             placeholder={placeholder}
             className="w-full   outline-none"
+            onFocus={handleFocus}
           />
           {/* <span>{value || placeholder}</span> */}
           <IoIosArrowDown className="text-lg" />
@@ -130,11 +142,17 @@ const CustomInputSelect: React.FC<SelectInputProps> = ({
                   onClick={() => handleSelect(option.iataCode)}
                   className={`cursor-pointer px-2 py-1 ${i === 0 ? "rounded-t-lg" : ""} ${i === options.length - 1 ? "rounded-b-lg" : ""} hover:bg-greenGradient hover:text-white transition-colors`}
                 >
-
+                  <div className=" flex justify-between">
+                    <div className=" text-[12px] leading-4">
                   {HighlightText({
-                    text: `${option.name}, ${option.address.cityName}`,
+                    text: `${option.address.cityName}, ${option.address.countryName}`,
                     query: searchTerm || "",
                   })}
+                  <p className=" text-gray2 text-[10px]">{option.name}</p>
+                  </div>
+                  <p className=" bg-slate-200 text-[8px] rounded-sm font-semibold p-1 h-5">{option.iataCode}</p>
+                  </div>
+                  
                 </div>
               ))
             )}

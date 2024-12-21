@@ -1,18 +1,48 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import FlightFilter from '@/app/components/website/flight-search/flight-filter';
 import FlightCard from '@/app/components/website/flight-details/flight-card';
 import Section from '@/app/components/shared/section';
 import FlightSearchForm from '@/app/components/website/flight-search/search-form';
+import { useSearchParams } from 'next/navigation';
 
 const Page: React.FC = () => {
+    const searchParams = useSearchParams()
+    const origin = searchParams.get("origin");
+    const destination = searchParams.get("destination");
+    const departureDate = searchParams.get("departureDate");
+    const returnDate = searchParams.get("returnDate");
+    const travelers = searchParams.get("travelers") || "1";
+    const flightClass = searchParams.get("class");
+
     const [filters, setFilters] = useState<{ [key: string]: any }>({
         price: 2000,
         stops: ['direct'],
         departureTime: 'morning'
     });
     const [flights, setFlights] = useState<any[]>([]);
+
+    const GetFlights = async()=>{
+        try{
+            const data = await axios.get(`/api/search-flights?origin=${origin}&destination=${destination}&departureDate=${departureDate}&returnDate=${returnDate}&travelers=${travelers}&flightClass=${flightClass}`)
+            setFlights(data.data.data)
+
+        }
+        catch(err)
+        {
+            console.log(err)
+        }
+    }
+    useEffect(()=>{
+        if(origin)
+        {
+            GetFlights()
+        }
+
+    },[origin])
+
+    console.log("flight",flights)
 
 
     return (
