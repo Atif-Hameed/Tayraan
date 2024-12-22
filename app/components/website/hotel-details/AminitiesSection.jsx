@@ -8,7 +8,7 @@ const AminitiesSection = ({ aminities, count }) => {
     // Show up to 5 aminities if not expanded
     const visibleAminities = showMore ? aminities : aminities.slice(0, count || 5);
 
-    return (
+    return ( 
 
         <div className='flex flex-col items-center my-10'>
             <h2 className="lg:text-5xl md:text-3xl tet-2xl text-center my-10 font-bold">Amenities</h2>
