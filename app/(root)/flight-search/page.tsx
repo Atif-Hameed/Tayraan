@@ -23,26 +23,24 @@ const Page: React.FC = () => {
     });
     const [flights, setFlights] = useState<any[]>([]);
 
-    const GetFlights = async()=>{
-        try{
+    const GetFlights = async () => {
+        try {
             const data = await axios.get(`/api/search-flights?origin=${origin}&destination=${destination}&departureDate=${departureDate}&returnDate=${returnDate}&travelers=${travelers}&flightClass=${flightClass}`)
             setFlights(data.data.data)
 
         }
-        catch(err)
-        {
+        catch (err) {
             console.log(err)
         }
     }
-    useEffect(()=>{
-        if(origin)
-        {
+    useEffect(() => {
+        if (origin) {
             GetFlights()
         }
 
-    },[origin])
+    }, [origin])
 
-    console.log("flight",flights)
+    console.log("flight", flights)
 
 
     return (
@@ -63,8 +61,8 @@ const Page: React.FC = () => {
                     </div>
                     <div className="lg:w-[72%] w-full space-y-6">
                         {flights.length === 0 && <p>No flights found.</p>}
-                        {[1, 2, 3, 4].map((flight, index) => (
-                            <FlightCard key={index} />
+                        {flights && flights.map((flight, index) => (
+                            <FlightCard key={flight.id} flight={flight} />
                         ))}
                     </div>
                 </div>

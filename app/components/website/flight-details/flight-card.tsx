@@ -1,12 +1,12 @@
 import Image from 'next/image'
 import React from 'react'
 import { Food, Plane, Seat, Time, Wifi, } from '@/app/svg/flight-feature-svg'
+import { getAirportByIATA, calculateTotalDuration, getFlightNames } from '@/utils/airports-helper'
 import logo from '/public/assets/flights/companyName.png'
 import route from '/public/assets/planeRoute.png'
 
-type Props = {}
 
-const FlightCard = (props: Props) => {
+const FlightCard = ({ flight }: any) => {
     const feature = [<Plane />, <Wifi />, <Time />, <Food />, <Seat />]
     return (
         <div>
@@ -16,12 +16,12 @@ const FlightCard = (props: Props) => {
                         <Image src={logo} alt='' className='' />
                         <h2 className="text-lg lg:text-xl font-semibold">ABC Airline</h2>
                     </div>
-                    <h2 className="text-base lg:text-lg ">Travel Class: <span className="font-bold text-xl">Economy</span></h2>
+                    {/* <h2 className="text-base lg:text-lg ">Travel Class: <span className="font-bold text-xl">Economy</span></h2> */}
 
                 </div>
 
                 <div className="flex justify-between items-center text-sm lg:text-base gap-5 flex-wrap">
-                    <div className="lg:w-3/4 w-full bg-[#98FFC80A] p-5">
+                    {/* <div className="lg:w-3/4 w-full bg-[#98FFC80A] p-5">
                         <p className="py-2">Sun, 29 Jan 2023</p>
 
                         <div className="grid lg:grid-cols-3 justify-between grid-cols-1 gap-5">
@@ -46,17 +46,39 @@ const FlightCard = (props: Props) => {
                             </div>
                         </div>
 
+                    </div> */}
+                    <div className="lg:w-3/4 w-full bg-[#98FFC80A] p-5">
+                        {flight.itineraries.map((itinerary: any, index: number) => (
+                            <div key={index} className="grid lg:grid-cols-3 justify-between grid-cols-1 gap-5">
+
+                                <div className="flex flex-col">
+                                    <p className="py-2">{new Date(itinerary.segments[0].departure.at).toLocaleTimeString()}</p>
+                                    <p className="py-2">{getAirportByIATA(itinerary.segments[0].departure.iataCode)}</p>
+                                </div>
+
+                                <div className="flex flex-col justify-center items-center">
+                                    <p className="py-2">{calculateTotalDuration(itinerary.segments)}</p>
+                                    <Image src={route} alt="Flight Route" />
+                                </div>
+
+                                <div className="flex flex-col lg:justify-center lg:items-center">
+                                    <p className="py-2">{new Date(itinerary.segments[itinerary.segments.length - 1].arrival.at).toLocaleTimeString()}</p>
+                                    <p className="py-2">{getAirportByIATA(itinerary.segments[itinerary.segments.length - 1].arrival.iataCode)}</p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
 
                     <div className="flex lg:w-1/5 w-full items-center gap-5 flex-col">
-                        <p className="py-2">$18,500</p>
+                        <p className="py-2">  {flight.price.currency} {flight.price.total}</p>
+                        {/* <p className="py-2">$18,500</p> */}
                         <button className="py-3 px-6 text-center text-white rounded-lg bg-green">Book Now</button>
 
                     </div>
                 </div>
                 <div className="flex justify-between font-medium items-center gap-5 flex-wrap ">
-                    <p className="py-2">100 seats remaining</p>
-                    <p className="py-2 text-orange">Partially Refundable</p>
+                    <p className="py-2">{flight.numberOfBookableSeats} seats remaining</p>
+                    {/* <p className="py-2 text-orange">Partially Refundable</p> */}
                     <div className="flex items-center gap-4">
                         {feature.map((item, i) => (
                             <div key={i} className="py-2 px-4 border-r-2 border-[#D7E2EE]">{item}</div>

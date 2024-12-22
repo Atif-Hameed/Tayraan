@@ -5,7 +5,10 @@ import { LuSearch } from "react-icons/lu";
 import Section from "../../shared/section";
 import CustomInput from "../../shared/CustomInput";
 import CustomInputSelect from "../../shared/CustomInputSelect";
+import AirportSearchField from "../../shared/airport-search-field";
 
+import fromImg from "/public/assets/from.png";
+import toImg from "/public/assets/to.png";
 type HeroSectionProps = {
   flightFormData: {
     from: string;
@@ -31,7 +34,7 @@ type HeroSectionProps = {
   handleFlightSubmit: () => void;
   handleHotelSubmit: () => void;
   GetAirpports: (keyword: string) => Promise<void>;
-  
+
 };
 
 const HeroSection: React.FC<HeroSectionProps> = ({
@@ -63,18 +66,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     { label: "First Class", value: "FIRST" },
   ];
 
-  useEffect(()=>{
+  useEffect(() => {
 
-    if(searchTermFrom)
-    {
+    if (searchTermFrom) {
       GetAirpports(searchTermFrom)
     }
-    else if(searchTermTo)
-    {
+    else if (searchTermTo) {
       GetAirpports(searchTermTo)
     }
 
-  },[searchTermFrom,searchTermTo])
+  }, [searchTermFrom, searchTermTo])
 
   return (
     <div className="w-full bg-heroBanner min-h-screen 2xl:min-h-auto py-20 lg:py-32 items-center bg-bottom bg-no-repeat bg-cover">
@@ -143,7 +144,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
                 {/* Form fields */}
                 <div className="border-t border-bordered gap-4 py-4 mt-2 grid lg:grid-cols-2 px-4">
-                  <CustomInputSelect
+                  {/* <CustomInputSelect
                     options={searchedAirports}
                     searchTerm={searchTermFrom}
                     setSearchTerm={setSearchTermFrom}
@@ -154,10 +155,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                     loading={loading}
                     value={flightFormData.from}
                     onChange={(value) => handleFlightChange("from", value)}
-                  />
-
-                  <CustomInputSelect
-                    options={searchedAirports.filter((item:any)=>item.iataCode!==flightFormData.from)}
+                  /> */}
+                  <AirportSearchField label="From" placeholder="From" className="border-b py-2 !border-borderColor" onSelect={(value) => handleFlightChange("from", value)} icon={fromImg} />
+                  <AirportSearchField label="To" placeholder="To" className="border-b py-2 !border-borderColor" onSelect={(value) => handleFlightChange("to", value)} icon={toImg} filterItem={flightFormData.from} />
+                  {/* <CustomInputSelect
+                    options={searchedAirports.filter((item: any) => item.iataCode !== flightFormData.from)}
                     searchTerm={searchTermTo}
                     setSearchTerm={setSearchTermTo}
                     placeholder="To"
@@ -167,7 +169,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                     loading={loading}
                     value={flightFormData.to}
                     onChange={(value) => handleFlightChange("to", value)}
-                  />
+                  /> */}
 
 
                   <div className="flex flex-col g">

@@ -1,14 +1,15 @@
 'use client';
 
 import { useState } from "react";
-import axios from "axios"; // Import axios
+import axios from "axios";
 import Image from "next/image";
 import fromImg from "/public/assets/from.png";
 import toImg from "/public/assets/to.png";
 import { Search } from "lucide-react";
+import AirportSearchField from "../../shared/airport-search-field";
 
 interface FlightSearchFormProps {
-    setFlights?: React.Dispatch<React.SetStateAction<any[]>>; // Updated for correct type
+    setFlights?: React.Dispatch<React.SetStateAction<any[]>>;
     flights?: any[];
 }
 
@@ -16,45 +17,46 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
     setFlights,
     flights
 }) => {
-    const [tripType, setTripType] = useState('roundtrip');
-    const [from, setFrom] = useState<string>(''); // Added types
-    const [to, setTo] = useState<string>(''); // Added types
-    const [departureDate, setDepartureDate] = useState<string>(''); // Added types
-    const [returnDate, setReturnDate] = useState<string>(''); // Added types
-    const [loading, setLoading] = useState(false); // For loading state
-    const [error, setError] = useState<string | null>(null); // Fixed typo in state initialization
+    const [tripType, setTripType] = useState("roundtrip");
+    const [from, setFrom] = useState<string>("");
+    const [to, setTo] = useState<string>("");
+    const [departureDate, setDepartureDate] = useState<string>("");
+    const [returnDate, setReturnDate] = useState<string>("");
+    const [travelers, setTravelers] = useState<string>("1");
+    const [flightClass, setFlightClass] = useState<string>("ECONOMY");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    // Handle form submit and API call
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         setLoading(true);
-        setError(null); // Reset error before making a new request
+        setError(null);
 
         try {
-            const originIATA = origin === 'lahore' ? 'LHE' : origin;  // Use 'LHE' for Lahore
-            const destinationIATA = from === 'Dubai' ? 'DXB' : from;  // Use 'DXB' for Dubai
-
-            // Make the GET request to the server API
-            const response = await axios.get('/api/search-flights', {
+            const response = await axios.get(`/api/search-flights`, {
                 params: {
-                    origin: originIATA, // e.g., "LHE"
-                    destination: destinationIATA, // e.g., "DXB"
-                    departureDate: departureDate, // e.g., "2024-12-20"
-                    returnDate: tripType === "roundtrip" ? returnDate : null, // Only add for roundtrip
-                },
+                    origin: from,
+                    destination: to,
+                    departureDate,
+                    returnDate: tripType === "roundtrip" ? returnDate : undefined,
+                    travelers,
+                    flightClass
+                }
             });
-
-
-
-            // Store the fetched flight data
-            setFlights?.(response.data);
-            console.log('flight', response.data)
+            setFlights?.(response.data.data);
         } catch (err) {
-            setError('There was an error fetching flight data');
+            setError("There was an error fetching flight data.");
         } finally {
             setLoading(false);
         }
     };
+
+    const flightClassOptions = [
+        { label: "Economy", value: "ECONOMY" },
+        { label: "Premium Economy", value: "PREMIUM_ECONOMY" },
+        { label: "Business", value: "BUSINESS" },
+        { label: "First Class", value: "FIRST" },
+    ];
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -86,104 +88,103 @@ const FlightSearchForm: React.FC<FlightSearchFormProps> = ({
                     className="px-4 py-3 rounded-full border border-borderColor"
                     name="passengers"
                     aria-label="Passengers"
+                    value={travelers}
+                    onChange={(e) => setTravelers(e.target.value)}
                 >
-                    <option value="1">1 passenger</option>
-                    <option value="2">2 passengers</option>
-                    <option value="3">3 passengers</option>
-                    <option value="4">4 passengers</option>
+                    {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
+                        <option key={num} value={num}>
+                            {num} {num > 1 ? "passengers" : "passenger"}
+                        </option>
+                    ))}
                 </select>
                 <select
                     className="px-4 py-3 rounded-full border border-borderColor"
                     name="class"
                     aria-label="Class"
+                    value={flightClass}
+                    onChange={(e) => setFlightClass(e.target.value)}
                 >
-                    <option value="economy">Economy class</option>
-                    <option value="business">Business class</option>
-                    <option value="first">First class</option>
+                    {flightClassOptions.map((item) => (
+                        <option key={item.value} value={item.value}>
+                            {item.label}
+                        </option>
+                    ))}
                 </select>
             </div>
 
-            {/* From, To, Date Inputs */}
+            {/* From, To, and Dates */}
             <div className="flex gap-4 justify-between flex-wrap items-center">
                 <div className="relative lg:w-1/5 w-full">
-                    <input
-                        type="text"
-                        value={from}
-                        onChange={(e) => setFrom(e.target.value)}
+                    <AirportSearchField
+                        label=""
                         placeholder="From"
-                        className="w-full px-4 py-3 rounded-full border border-borderColor"
-                        aria-label="From"
+                        className="border rounded-full py-3 !border-borderColor"
+                        onSelect={(value) => setFrom(value)}
+                        icon={fromImg}
                     />
-                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                        <Image src={fromImg} alt="From Icon" />
-                    </div>
                 </div>
 
                 <button
                     type="button"
                     aria-label="Swap Locations"
                     className="py-3 px-5 bg-green lg:block hidden rounded-md text-white"
+                    onClick={() => {
+                        const temp = from;
+                        setFrom(to);
+                        setTo(temp);
+                    }}
                 >
                     &#8644;
                 </button>
 
                 <div className="relative lg:w-1/5 w-full">
-                    <input
-                        type="text"
-                        value={to}
-                        onChange={(e) => setTo(e.target.value)}
+                    <AirportSearchField
+                        label=""
                         placeholder="To"
-                        className="w-full px-4 py-3 rounded-full border border-borderColor"
-                        aria-label="To"
+                        className="border rounded-full py-3 !border-borderColor"
+                        onSelect={(value) => setTo(value)}
+                        icon={toImg}
+                        filterItem={from}
                     />
-                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                        <Image src={toImg} alt="To Icon" />
-                    </div>
                 </div>
 
                 <div className="relative lg:w-1/5 w-full">
                     <input
-                        placeholder="GO"
-                        onFocus={(e) => (e.target.type = "date")}
-                        onBlur={(e) => (e.target.type = "text")}
-                        value={departureDate}
-                        onChange={(e) => setDepartureDate(e.target.value)}
+                        placeholder="Departure"
                         type="date"
+                        value={departureDate}
+                        min={new Date().toISOString().split("T")[0]}
+                        onChange={(e) => setDepartureDate(e.target.value)}
                         className="px-4 py-3 w-full rounded-full border border-borderColor"
                         aria-label="Departure Date"
                     />
                 </div>
 
-                {/* Conditional Return Date */}
                 {tripType === "roundtrip" && (
                     <div className="relative lg:w-1/5 w-full">
                         <input
                             placeholder="Return"
-                            onFocus={(e) => (e.target.type = "date")}
-                            onBlur={(e) => (e.target.type = "text")}
-                            value={returnDate}
-                            onChange={(e) => setReturnDate(e.target.value)}
                             type="date"
+                            value={returnDate}
+                            min={departureDate || new Date().toISOString().split("T")[0]}
+                            onChange={(e) => setReturnDate(e.target.value)}
                             className="px-4 py-3 w-full rounded-full border border-borderColor"
                             aria-label="Return Date"
                         />
                     </div>
                 )}
 
-                {/* Search Button */}
                 <button
                     type="submit"
                     className="flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-700 text-white hover:bg-emerald-600"
                     aria-label="Search Flights"
                 >
-                    {loading ? 'Searching...' : 'Search'} <Search />
+                    {loading ? "Searching..." : "Search"} <Search />
                 </button>
             </div>
 
-            {/* Error handling */}
+            {/* Error Handling */}
             {error && <p className="text-red-500">{error}</p>}
-
-
         </form>
     );
 };
