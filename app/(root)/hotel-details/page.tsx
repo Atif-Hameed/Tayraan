@@ -1,3 +1,4 @@
+'use client'
 import Section from '@/app/components/shared/section';
 import HotelHeader from '@/app/components/website/hotel-details/HotelHeader'
 import Tabs from '@/app/components/website/hotel-details/Tabs';
@@ -8,7 +9,9 @@ import i3 from "/public/assets/hotels/hd3.png";
 import i4 from "/public/assets/hotels/hd4.png";
 import i5 from "/public/assets/hotels/hd5.png";
 import Image from 'next/image';
+import RoomChoices from '@/app/components/website/hotel-details/RoomChoices'
 import WeekendDeals from '@/app/components/website/flight-details/WeekendDeals';
+import AminitiesSection from '@/app/components/website/hotel-details/AminitiesSection';
 
 const Page = () => {
 
@@ -32,7 +35,28 @@ const Page = () => {
         { id: "about-property", label: "About The Property" },
         { id: "similar-properties", label: "Similar Properties" },
     ];
-    
+
+    const amenities = [
+        'Outdoor pool',
+        'Indoor pool',
+        'Spa and wellness center',
+        'Restaurant',
+        'Room service',
+        'Fitness center',
+        'Bar/Lounge',
+        'Free Wi-Fi',
+        'Tea/coffee machine',
+        'Outdoor pool',
+        'Indoor pool',
+        'Spa and wellness center',
+        'Restaurant',
+        'Room service',
+        'Fitness center',
+        'Bar/Lounge',
+        'Free Wi-Fi',
+        'Tea/coffee machine'
+    ];
+
 
     return (
         <Section>
@@ -58,6 +82,14 @@ const Page = () => {
                     ))}
 
                 </div>
+            </div>
+
+            <div className="mt-8 w-full">
+                <RoomChoices />
+            </div>
+
+            <div className="mt-8 ">
+                <AminitiesSection aminities={amenities} count={14} />
             </div>
 
             <div className="mt-8 ">

@@ -21,7 +21,8 @@ const config: Config = {
         grayDark: "#7C7C7C",
         borderColor: "#A1B0CC",
         Cgreen:'#8DD3BB',
-        gray2:'#737373'
+        gray2:'#737373',
+        grayBorder:'#D8D8D8',
       },
       fontFamily: {
         cairo: ["var(--font-cairo)", "sans-serif"],
