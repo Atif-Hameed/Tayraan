@@ -49,8 +49,16 @@ export async function GET(request) {
             },
         });
 
-        // Return flight data
-        return new Response(JSON.stringify(response.data), { status: 200 });
+        const flightData = response.data.data; 
+        const carriers = response.data.dictionaries.carriers;
+
+        // Combine flight data with carriers
+        const result = {
+            flights: flightData,
+            carriers: carriers,
+        };
+
+        return new Response(JSON.stringify(result), { status: 200 });
     } catch (error) {
         console.error('Error fetching flights:', error);
 

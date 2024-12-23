@@ -6,7 +6,7 @@ import logo from '/public/assets/flights/companyName.png'
 import route from '/public/assets/planeRoute.png'
 
 
-const FlightCard = ({ flight }: any) => {
+const FlightCard = ({ flight,airlineName }: any) => {
     const feature = [<Plane />, <Wifi />, <Time />, <Food />, <Seat />]
     return (
         <div>
@@ -14,7 +14,7 @@ const FlightCard = ({ flight }: any) => {
                 <div className="flex justify-between w-full items-center flex-wrap py-3 gap-4">
                     <div className="flex gap-2 items-center">
                         <Image src={logo} alt='' className='' />
-                        <h2 className="text-lg lg:text-xl font-semibold">ABC Airline</h2>
+                        <h2 className="text-lg lg:text-xl font-semibold">{airlineName}</h2>
                     </div>
                     {/* <h2 className="text-base lg:text-lg ">Travel Class: <span className="font-bold text-xl">Economy</span></h2> */}
 

@@ -22,11 +22,13 @@ const Page: React.FC = () => {
         departureTime: 'morning'
     });
     const [flights, setFlights] = useState<any[]>([]);
+    const [carriers, setCarriers] = useState<any[]>([]);
 
     const GetFlights = async () => {
         try {
             const data = await axios.get(`/api/search-flights?origin=${origin}&destination=${destination}&departureDate=${departureDate}&returnDate=${returnDate}&travelers=${travelers}&flightClass=${flightClass}`)
-            setFlights(data.data.data)
+            setFlights(data.data.flights)
+            setCarriers(data.data.carriers)
 
         }
         catch (err) {
@@ -41,6 +43,7 @@ const Page: React.FC = () => {
     }, [origin])
 
     console.log("flight", flights)
+    console.log("carrie", carriers)
 
 
     return (
@@ -62,7 +65,7 @@ const Page: React.FC = () => {
                     <div className="lg:w-[72%] w-full space-y-6">
                         {flights.length === 0 && <p>No flights found.</p>}
                         {flights && flights.map((flight, index) => (
-                            <FlightCard key={flight.id} flight={flight} />
+                            <FlightCard key={flight.id} flight={flight} airlineName={carriers[flight.validatingAirlineCodes[0]]} />
                         ))}
                     </div>
                 </div>
