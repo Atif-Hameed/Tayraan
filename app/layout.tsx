@@ -63,7 +63,7 @@ export default function RootLayout({
             {/* <GoogleTranslate /> */}
             {children}
           </AnimationProvider>
-        </Suspense>
+        </Suspense> 
       </body>
     </html>
   );
