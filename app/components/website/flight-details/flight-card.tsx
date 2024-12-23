@@ -6,7 +6,7 @@ import logo from '/public/assets/flights/companyName.png'
 import route from '/public/assets/planeRoute.png'
 
 
-const FlightCard = ({ flight,airlineName }: any) => {
+const FlightCard = ({ flight, airlineName }: any) => {
     const feature = [<Plane />, <Wifi />, <Time />, <Food />, <Seat />]
     return (
         <div>

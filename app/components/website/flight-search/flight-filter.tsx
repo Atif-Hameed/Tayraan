@@ -8,10 +8,15 @@ import CheckboxGroup from '../../shared/filter/filter-checkbox-group';
 interface FlightFilterProps {
     filterPrice: number;
     filterStops: string[];
+    airlines: string[];
     filterDepartureTime: string;
+    filterAirlines: string[];
+    filterBaggage: string[];
     onPriceChange: (price: number) => void;
     onStopsChange: (stops: string[]) => void;
     onDepartureTimeChange: (departureTime: string) => void;
+    onAirlinesChange: (airlines: string[]) => void;
+    onBaggageChange: (baggage: string[]) => void;
 }
 
 // Define the possible keys for the isExpanded state
@@ -19,35 +24,62 @@ type IsExpanded = {
     price: boolean;
     stops: boolean;
     departureTime: boolean;
+    airlines: boolean;
+    baggage: boolean;
 };
 
 const FlightFilter: React.FC<FlightFilterProps> = ({
     filterPrice,
+    airlines,
     filterStops,
     filterDepartureTime,
+    filterAirlines,
+    filterBaggage,
     onPriceChange,
     onStopsChange,
-    onDepartureTimeChange
+    onDepartureTimeChange,
+    onAirlinesChange,
+    onBaggageChange,
 }) => {
-    // Initialize isExpanded with the correct type
-    const [isExpanded, setIsExpanded] = React.useState<IsExpanded>({
+    const [isExpanded, setIsExpanded] = useState<IsExpanded>({
         price: true,
         stops: true,
-        departureTime: true
+        departureTime: true,
+        airlines: true,
+        baggage: true,
     });
+
     const [priceRange, setPriceRange] = useState<[number, number]>([100, 500]);
 
-    const handlePriceChange = (newValue: [number, number]) => {
-        console.log("Selected Price Range:", newValue);
-        setPriceRange(newValue);
-    };
     const toggleSection = (section: keyof IsExpanded) => {
         setIsExpanded((prev) => ({ ...prev, [section]: !prev[section] }));
     };
 
+    const departureTimeOptions = [
+        "Before 06:00AM",
+        "06:00AM - 12:00PM",
+        "12:00PM - 06:00PM",
+        "After 06:00PM",
+    ];
+
+    const stopsOptions = [
+        "Any number of stops",
+        "Direct flights only",
+        "1 stop or less",
+        "2 stops or less",
+    ];
+
+    const airlinesOptions = ["Emirates", "Qatar Airways", "Air India", "Indigo"];
+    console.log('airline', airlines)
+    const baggageOptions = [
+        "All baggage options",
+        "Checked baggage included",
+    ];
+
     return (
         <div className="bg-white rounded-lg shadow-md p-4 w-full max-w-md">
             <h3 className="text-lg font-bold mb-4">Filter results...</h3>
+
             {/* Departure Time Filter */}
             <div className="py-3">
                 <div className="flex justify-between items-center cursor-pointer" onClick={() => toggleSection('departureTime')}>
@@ -56,11 +88,10 @@ const FlightFilter: React.FC<FlightFilterProps> = ({
                 </div>
                 {isExpanded.departureTime && (
                     <div className="grid grid-cols-2 gap-4 mt-2">
-                        {['earlyMorning', 'morning', 'afternoon', 'evening'].map((time) => (
+                        {departureTimeOptions.map((time, i) => (
                             <div
-                                key={time}
-                                className={`border p-2 rounded-md flex flex-col items-center cursor-pointer hover:shadow ${filterDepartureTime === time ? 'border-blue-500' : ''
-                                    }`}
+                                key={i}
+                                className={`border px-2 py-4 rounded-md flex flex-col items-center cursor-pointer hover:shadow ${filterDepartureTime === time ? 'bg-[#98FFC80A]' : ''}`}
                                 onClick={() => onDepartureTimeChange(time)}
                             >
                                 <DayFilter />
@@ -70,43 +101,51 @@ const FlightFilter: React.FC<FlightFilterProps> = ({
                     </div>
                 )}
             </div>
+
             {/* Price Filter */}
             <div className="py-3">
                 <div className="flex justify-between items-center cursor-pointer" onClick={() => toggleSection('price')}>
-                    <h4 className="text-base py-2 font-semibold">Price range</h4>
+                    <h4 className="text-base py-2 font-semibold">Price Range</h4>
                     <span>{isExpanded.price ? <ArrowUp /> : <MdKeyboardArrowDown className="text-2xl" />}</span>
                 </div>
                 {isExpanded.price && (
                     <PriceRange
                         title=""
                         min={50}
-                        max={1000}
-                        unit="SAR"
+                        max={10000}
+                        unit="EUR"
                         value={priceRange}
-                        onChange={handlePriceChange}
+                        onChange={(newValue) => {
+                            setPriceRange(newValue);
+                            onPriceChange(newValue[1]); // Pass max value to the parent component
+                        }}
                     />
                 )}
             </div>
 
             {/* Stops Filter */}
-            <div className="py-3 space-y-5">
-                <CheckboxGroup
-                    title="خطوط الطيران"
-                    options={[
-                        { label: "طيران ناس", logo: "/jazeera.png" },
-                        { label: "طيران ناس", logo: "/jazeera.png" },
-                    ]}
-                />
-                <CheckboxGroup
-                    title="المطارات"
-                    options={[
-                        { label: "مطار الملك خالد الدولي (RUH)" },
-                        { label: "مطار حمد الدولي (DOH)" },
-                    ]}
-                />
-            </div>
+            <CheckboxGroup
+                title="Stops"
+                options={stopsOptions.map((label) => ({ label }))}
+                selectedOptions={filterStops}
+                onChange={onStopsChange}
+            />
 
+            {/* Airlines Filter */}
+            {airlines && <CheckboxGroup
+                title="Airlines"
+                options={airlines?.map((label: any) => ({ label }))}
+                selectedOptions={filterAirlines}
+                onChange={onAirlinesChange}
+            />}
 
+            {/* Baggage Filter */}
+            <CheckboxGroup
+                title="Baggage"
+                options={baggageOptions.map((label) => ({ label }))}
+                selectedOptions={filterBaggage}
+                onChange={onBaggageChange}
+            />
         </div>
     );
 };
