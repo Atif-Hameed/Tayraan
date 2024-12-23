@@ -6,6 +6,7 @@ import { Montserrat } from "next/font/google";
 import AnimationProvider from "./components/provider/animation-provider";
 
 import Script from "next/script";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -56,12 +57,13 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <Suspense>
+          <AnimationProvider>
 
-        <AnimationProvider>
-
-          {/* <GoogleTranslate /> */}
-          {children}
-        </AnimationProvider>
+            {/* <GoogleTranslate /> */}
+            {children}
+          </AnimationProvider>
+        </Suspense>
       </body>
     </html>
   );
