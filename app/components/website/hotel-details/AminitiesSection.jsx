@@ -5,7 +5,7 @@ import { HotelPoolIcon } from '@/app/svg';
 const AminitiesSection = ({ aminities, count }) => {
     const [showMore, setShowMore] = useState(false);
 
-    // Show up to 5 aminities if not expanded 
+    // Show up to 5 aminities if not expanded  
     const visibleAminities = showMore ? aminities : aminities.slice(0, count || 5);
 
     return ( 
